@@ -11,25 +11,4 @@ class ClientRepositoryEloquent extends BaseRepository implements ClientRepositor
     {
         return Client::class;
     }
-
-    public function create(array $data)
-    {
-        return Client::create($data);
-    }
-
-    public function update(array $data, $id)
-    {
-        return Client::find($id)->update($data);
-    }
-
-    public function show($id)
-    {
-        return Client::find($id);
-    }
-
-    public function delete($id)
-    {
-        return Client::find($id)->delete();
-    }
-
 }
