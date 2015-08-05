@@ -27,5 +27,10 @@ class GPRepositoryProvider extends ServiceProvider
             \GerenciadorProjetos\Repositories\ClientRepository::class,
             \GerenciadorProjetos\Repositories\ClientRepositoryEloquent::class
         );
+
+        $this->app->bind(
+            \GerenciadorProjetos\Repositories\ProjectRepository::class,
+            \GerenciadorProjetos\Repositories\ProjectRepositoryEloquent::class
+        );
     }
 }

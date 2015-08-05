@@ -30,3 +30,14 @@ $factory->define(GerenciadorProjetos\Entities\Client::class, function (Faker\Gen
         'obs' => $faker->sentence,
     ];
 });
+
+$factory->define(GerenciadorProjetos\Entities\Project::class, function (Faker\Generator $faker) {
+    return [
+        'owner_id' => rand(1,10),
+        'client_id' => rand(1,10),
+        'name' => $faker->word,
+        'description' => $faker->sentence,
+        'progress' => rand(1,100),
+        'status' => rand(1,3),
+    ];
+});
