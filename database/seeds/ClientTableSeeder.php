@@ -11,7 +11,7 @@ class ClientTableSeeder extends Seeder
      */
     public function run()
     {
-        \GerenciadorProjetos\Client::truncate();
-        factory(\GerenciadorProjetos\Client::class, 10)->create();
+        \GerenciadorProjetos\Entities\Client::truncate();
+        factory(\GerenciadorProjetos\Entities\Client::class, 10)->create();
     }
 }

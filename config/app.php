@@ -144,6 +144,11 @@ return [
         GerenciadorProjetos\Providers\EventServiceProvider::class,
         GerenciadorProjetos\Providers\RouteServiceProvider::class,
 
+        /*
+         * Add Providers
+         */
+        Prettus\Repository\Providers\RepositoryServiceProvider::class,
+        GerenciadorProjetos\Providers\GPRepositoryProvider::class
     ],
 
     /*

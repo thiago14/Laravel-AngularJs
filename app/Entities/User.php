@@ -1,6 +1,6 @@
 <?php
 
-namespace GerenciadorProjetos;
+namespace GerenciadorProjetos\Entities;
 
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
