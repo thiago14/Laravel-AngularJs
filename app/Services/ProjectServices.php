@@ -3,22 +3,22 @@
 namespace GerenciadorProjetos\Services;
 
 
-use GerenciadorProjetos\Repositories\ClientRepository;
-use GerenciadorProjetos\Validators\ClientValidator;
+use GerenciadorProjetos\Repositories\ProjectRepository;
+use GerenciadorProjetos\Validators\ProjectValidator;
 use Prettus\Validator\Exceptions\ValidatorException;
 
-class ClientServices
+class ProjectServices
 {
     /**
-     * @var ClientRepository
+     * @var ProjectRepository
      */
     protected $repository;
     /**
-     * @var ClientValidator
+     * @var ProjectValidator
      */
     private $validator;
 
-    public function __construct(ClientRepository $repository, ClientValidator $validator)
+    public function __construct(ProjectRepository $repository, ProjectValidator $validator)
     {
         $this->repository = $repository;
         $this->validator = $validator;
@@ -54,8 +54,11 @@ class ClientServices
     {
         try{
             return response()->json($this->repository->find($id));
-        } catch(\Exception $e) {
-            return ["error" => true, "message" => "Client ID: {$id} not found"];
+        }catch (\Exception $e){
+            return response()->json([
+                "error" => true,
+                "message" => $e->getMessage()
+            ], 412);
         }
     }
 
@@ -64,7 +67,7 @@ class ClientServices
         try{
             return response()->json($this->repository->all());
         } catch(\Exception $e) {
-            return ["error" => true, "message" => "Erro ao Carregar Clientes."];
+            return ["error" => true, "message" => "Erro ao Carregar Projetos."];
         }
     }
 

@@ -29,4 +29,9 @@ class ProjectRepositoryEloquent extends BaseRepository implements ProjectReposit
     {
         $this->pushCriteria( app(RequestCriteria::class) );
     }
+
+    public function all($columns = array('*'))
+    {
+        return Project::with(['client','owner'])->get();
+    }
 }
