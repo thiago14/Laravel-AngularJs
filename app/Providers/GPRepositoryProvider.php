@@ -2,6 +2,12 @@
 
 namespace GerenciadorProjetos\Providers;
 
+use GerenciadorProjetos\Repositories\ClientRepository;
+use GerenciadorProjetos\Repositories\ClientRepositoryEloquent;
+use GerenciadorProjetos\Repositories\ProjectNoteRepository;
+use GerenciadorProjetos\Repositories\ProjectNoteRepositoryEloquent;
+use GerenciadorProjetos\Repositories\ProjectRepository;
+use GerenciadorProjetos\Repositories\ProjectRepositoryEloquent;
 use Illuminate\Support\ServiceProvider;
 
 class GPRepositoryProvider extends ServiceProvider
@@ -24,13 +30,18 @@ class GPRepositoryProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind(
-            \GerenciadorProjetos\Repositories\ClientRepository::class,
-            \GerenciadorProjetos\Repositories\ClientRepositoryEloquent::class
+            ClientRepository::class,
+            ClientRepositoryEloquent::class
         );
 
         $this->app->bind(
-            \GerenciadorProjetos\Repositories\ProjectRepository::class,
-            \GerenciadorProjetos\Repositories\ProjectRepositoryEloquent::class
+            ProjectRepository::class,
+            ProjectRepositoryEloquent::class
+        );
+
+        $this->app->bind(
+            ProjectNoteRepository::class,
+            ProjectNoteRepositoryEloquent::class
         );
     }
 }

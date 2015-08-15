@@ -22,11 +22,16 @@ class Project extends Model implements Transformable
 
     public function client()
     {
-        return $this->belongsTo(\GerenciadorProjetos\Entities\Client::class);
+        return $this->belongsTo(Client::class);
     }
 
     public function owner()
     {
-        return $this->belongsTo(\GerenciadorProjetos\Entities\User::class);
+        return $this->belongsTo(User::class);
+    }
+
+    public function notes()
+    {
+        return $this->hasMany(ProjectNote::class);
     }
 }

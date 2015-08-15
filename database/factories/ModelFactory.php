@@ -41,3 +41,11 @@ $factory->define(GerenciadorProjetos\Entities\Project::class, function (Faker\Ge
         'status' => rand(1,3),
     ];
 });
+
+$factory->define(GerenciadorProjetos\Entities\ProjectNote::class, function (Faker\Generator $faker) {
+    return [
+        'project_id' => rand(1,10),
+        'title' => $faker->word,
+        'note' => $faker->paragraph
+    ];
+});
