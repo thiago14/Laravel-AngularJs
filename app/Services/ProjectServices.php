@@ -52,33 +52,36 @@ class ProjectServices
 
     public function show($id)
     {
-        try{
+        try {
             return response()->json($this->repository->find($id));
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             return response()->json([
                 "error" => true,
-                "message" => $e->getMessage()
+                "message" => "Projeto ID: {$id} não encontrado!"
             ], 412);
         }
     }
 
     public function all()
     {
-        try{
+        try {
             return response()->json($this->repository->all());
-        } catch(\Exception $e) {
-            return ["error" => true, "message" => "Erro ao Carregar Projetos."];
+        } catch (\Exception $e) {
+            return response()->json([
+                "error" => true,
+                "message" => "Erro ao Carregar Projetos."
+            ], 412);
         }
     }
 
     public function delete($id)
     {
-        try{
+        try {
             return response()->json($this->repository->delete($id));
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             return response()->json([
                 "error" => true,
-                "message" => $e->getMessage()
+                "message" => "Não foi possível deletar o ID: {$id}"
             ], 412);
         }
     }
