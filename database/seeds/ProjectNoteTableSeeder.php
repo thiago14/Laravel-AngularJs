@@ -11,7 +11,7 @@ class ProjectNoteTableSeeder extends Seeder
      */
     public function run()
     {
-//        \GerenciadorProjetos\Entities\Project::truncate();
+//        \GerenciadorProjetos\Entities\ProjectNote::truncate();
         factory(\GerenciadorProjetos\Entities\ProjectNote::class, 50)->create();
     }
 }

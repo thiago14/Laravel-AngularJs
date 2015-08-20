@@ -3,17 +3,17 @@
 namespace GerenciadorProjetos\Http\Controllers;
 
 use GerenciadorProjetos\Http\Requests;
-use GerenciadorProjetos\Services\ProjectNoteServices;
+use GerenciadorProjetos\Services\ProjectTaskServices;
 use Illuminate\Http\Request;
 
-class ProjectNoteController extends Controller
+class ProjectTaskController extends Controller
 {
     /**
-     * @var ProjectNoteService
+     * @var ProjectTaskService
      */
     private $service;
 
-    public function __construct(ProjectNoteServices $service)
+    public function __construct(ProjectTaskServices $service)
     {
         $this->service = $service;
     }
@@ -44,9 +44,9 @@ class ProjectNoteController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function show($id, $noteId)
+    public function show($id, $taskId)
     {
-        return $this->service->show($id, $noteId);
+        return $this->service->show($id, $taskId);
     }
 
     /**
@@ -56,9 +56,9 @@ class ProjectNoteController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function update(Request $request, $id, $noteId)
+    public function update(Request $request, $id, $taskId)
     {
-        return$this->service->update($request->all(), $noteId);
+        return$this->service->update($request->all(), $taskId);
     }
 
     /**
@@ -67,8 +67,8 @@ class ProjectNoteController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function destroy($id, $noteId)
+    public function destroy($id, $taskId)
     {
-        return $this->service->delete($noteId);
+        return $this->service->delete($taskId);
     }
 }

@@ -8,6 +8,8 @@ use GerenciadorProjetos\Repositories\ProjectNoteRepository;
 use GerenciadorProjetos\Repositories\ProjectNoteRepositoryEloquent;
 use GerenciadorProjetos\Repositories\ProjectRepository;
 use GerenciadorProjetos\Repositories\ProjectRepositoryEloquent;
+use GerenciadorProjetos\Repositories\ProjectTaskRepository;
+use GerenciadorProjetos\Repositories\ProjectTaskRepositoryEloquent;
 use Illuminate\Support\ServiceProvider;
 
 class GPRepositoryProvider extends ServiceProvider
@@ -42,6 +44,11 @@ class GPRepositoryProvider extends ServiceProvider
         $this->app->bind(
             ProjectNoteRepository::class,
             ProjectNoteRepositoryEloquent::class
+        );
+
+        $this->app->bind(
+            ProjectTaskRepository::class,
+            ProjectTaskRepositoryEloquent::class
         );
     }
 }
