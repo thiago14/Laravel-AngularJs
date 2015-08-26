@@ -3,17 +3,17 @@
 namespace GerenciadorProjetos\Http\Controllers;
 
 use GerenciadorProjetos\Http\Requests;
-use GerenciadorProjetos\Services\ProjectTaskServices;
+use GerenciadorProjetos\Services\ProjectMemberServices;
 use Illuminate\Http\Request;
 
-class ProjectTaskController extends Controller
+class ProjectMemberController extends Controller
 {
     /**
-     * @var ProjectTaskService
+     * @var ProjectMemberService
      */
     private $service;
 
-    public function __construct(ProjectTaskServices $service)
+    public function __construct(ProjectMemberServices $service)
     {
         $this->service = $service;
     }
@@ -44,9 +44,9 @@ class ProjectTaskController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function show($id, $taskId)
+    public function show($id, $memberId)
     {
-        return $this->service->show($id, $taskId);
+        return $this->service->show($id, $memberId);
     }
 
     /**
@@ -56,9 +56,9 @@ class ProjectTaskController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function update(Request $request, $id, $taskId)
+    public function update(Request $request, $id, $memberId)
     {
-        return $this->service->update($request->all(), $taskId);
+        return$this->service->update($request->all(), $memberId);
     }
 
     /**
@@ -67,8 +67,8 @@ class ProjectTaskController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function destroy($id, $taskId)
+    public function destroy($id, $memberId)
     {
-        return $this->service->delete($taskId);
+        return $this->service->delete($memberId);
     }
 }

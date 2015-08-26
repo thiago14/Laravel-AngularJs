@@ -59,3 +59,10 @@ $factory->define(GerenciadorProjetos\Entities\ProjectTask::class, function (Fake
         'status' => rand(1,3)
     ];
 });
+
+$factory->define(GerenciadorProjetos\Entities\ProjectMember::class, function (Faker\Generator $faker) {
+    return [
+        'project_id' => rand(1,10),
+        'user_id' => rand(1,10),
+    ];
+});

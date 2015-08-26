@@ -4,13 +4,13 @@ namespace GerenciadorProjetos\Repositories;
 
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
-use GerenciadorProjetos\Entities\Project;
+use GerenciadorProjetos\Entities\ProjectMember;
 
 /**
- * Class ProjectRepositoryEloquent
+ * Class ProjectMemberRepositoryEloquent
  * @package namespace GerenciadorProjetos\Repositories;
  */
-class ProjectRepositoryEloquent extends BaseRepository implements ProjectRepository
+class ProjectMemberRepositoryEloquent extends BaseRepository implements ProjectMemberRepository
 {
     /**
      * Specify Model class name
@@ -19,7 +19,7 @@ class ProjectRepositoryEloquent extends BaseRepository implements ProjectReposit
      */
     public function model()
     {
-        return Project::class;
+        return ProjectMember::class;
     }
 
     /**
@@ -30,8 +30,4 @@ class ProjectRepositoryEloquent extends BaseRepository implements ProjectReposit
         $this->pushCriteria( app(RequestCriteria::class) );
     }
 
-    public function isMember($projectId, $userId)
-    {
-        return $this->findWhere(['project_id'=>$projectId, 'user_id'=>$userId],['id'])->first()->id;
-    }
 }

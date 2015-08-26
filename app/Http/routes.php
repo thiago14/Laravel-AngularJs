@@ -11,6 +11,10 @@ Route::get('/client/{id}','ClientController@show');
 Route::put('/client/{id}','ClientController@update');
 Route::delete('/client/{id}','ClientController@destroy');
 
+Route::post('/project/{id}/addMember','ProjectController@addMember');
+Route::post('/project/{id}/removeMember','ProjectController@removeMember');
+Route::post('/project/{id}/removeMember','ProjectController@removeMember');
+
 /*
  * Tarefas dos Projetos
  */
@@ -29,6 +33,14 @@ Route::get('/project/{id}/note/{noteId}','ProjectNoteController@show');
 Route::put('/project/{id}/note/{noteId}','ProjectNoteController@update');
 Route::delete('/project/{id}/note/{noteId}','ProjectNoteController@destroy');
 
+/*
+ * Membros do Projeto
+ */
+Route::get('/project/{id}/member', 'ProjectMemberController@index');
+Route::post('/project/{id}/member','ProjectMemberController@store');
+Route::get('/project/{id}/member/{memberId}','ProjectMemberController@show');
+Route::put('/project/{id}/member/{memberId}','ProjectMemberController@update');
+Route::delete('/project/{id}/member/{memberId}','ProjectMemberController@destroy');
 /*
  * Projetos
  */
