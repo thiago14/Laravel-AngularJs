@@ -139,6 +139,18 @@ class ProjectServices
         }
     }
 
+    public function members($id)
+    {
+        try {
+            return response()->json($this->repository->find($id)->members());
+        } catch (\Exception $e) {
+            return response()->json([
+                "error" => true,
+                "message" => "Não foi possível carregar os membros"
+            ], 412);
+        }
+    }
+
     public function isMember($projectId, $userId)
     {
         try{

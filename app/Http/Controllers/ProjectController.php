@@ -92,6 +92,15 @@ class ProjectController extends Controller
         return $this->service->removeMember($request->all(), $id);
     }
 
+    public function members($id)
+    {
+        return $this->service->members($id);
+    }
+    /**
+     * @param $projectId
+     * @param $userId
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function isMember($projectId, $userId)
     {
         return $this->service->isMember($projectId, $userId);

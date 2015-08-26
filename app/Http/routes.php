@@ -13,7 +13,7 @@ Route::delete('/client/{id}','ClientController@destroy');
 
 Route::post('/project/{id}/addMember','ProjectController@addMember');
 Route::post('/project/{id}/removeMember','ProjectController@removeMember');
-Route::post('/project/{id}/removeMember','ProjectController@removeMember');
+Route::get('/project/{id}/members','ProjectController@member');
 
 /*
  * Tarefas dos Projetos
