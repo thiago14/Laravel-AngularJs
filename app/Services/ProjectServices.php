@@ -173,7 +173,7 @@ class ProjectServices
     {
         try{
             $result = $this->repository->isOwner($projectId, $userId);
-            if(is_numeric($result)){
+            if(isset($result->id) && is_int($result->id)){
                 return true;
             }
 
