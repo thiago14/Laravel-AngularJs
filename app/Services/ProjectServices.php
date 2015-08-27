@@ -115,10 +115,10 @@ class ProjectServices
         }
     }
 
-    public function all()
+    public function all($userId)
     {
         try {
-            return response()->json($this->repository->with(['client', 'owner', 'members', 'tasks', 'notes'])->all());
+            return response()->json($this->repository->with(['client', 'owner', 'members', 'tasks', 'notes'])->findWhere(['owner_id'=> $userId]));
         } catch (\Exception $e) {
             return response()->json([
                 "error" => true,
@@ -160,6 +160,24 @@ class ProjectServices
             }
 
             return response()->json(['result'=> false]);
+
+        }catch (\Exception $e){
+            return response()->json([
+                "error" => true,
+                "message" => "Não foi possível validar o ID: {$userId}"
+            ], 412);
+        }
+    }
+
+    public function isOwner($projectId, $userId)
+    {
+        try{
+            $result = $this->repository->isOwner($projectId, $userId);
+            if(is_numeric($result)){
+                return true;
+            }
+
+            return false;
 
         }catch (\Exception $e){
             return response()->json([

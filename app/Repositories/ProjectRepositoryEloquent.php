@@ -27,11 +27,16 @@ class ProjectRepositoryEloquent extends BaseRepository implements ProjectReposit
      */
     public function boot()
     {
-        $this->pushCriteria( app(RequestCriteria::class) );
+        $this->pushCriteria(app(RequestCriteria::class));
     }
 
     public function isMember($projectId, $userId)
     {
-        return $this->findWhere(['project_id'=>$projectId, 'user_id'=>$userId],['id'])->first()->id;
+        return $this->findWhere(['id' => $projectId, 'user_id' => $userId], ['id'])->first();
+    }
+
+    public function isOwner($projectId, $userId)
+    {
+        return $this->findWhere(['id' => $projectId, 'owner_id' => $userId], ['id'])->first();
     }
 }

@@ -24,7 +24,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        return $this->service->all();
+        return $this->service->all(\Authorizer::getResourceOwnerId());
     }
 
     /**
@@ -46,7 +46,10 @@ class ProjectController extends Controller
      */
     public function show($id)
     {
-        return $this->service->show($id);
+        if($this->checkProjectOwner($id) == true){
+            return $this->service->show($id);
+        }
+        return response()->json(["error" => true, "message" => "Permissão negada!"], 412);
     }
 
     /**
@@ -58,7 +61,10 @@ class ProjectController extends Controller
      */
     public function update(Request $request, $id)
     {
-        return$this->service->update($request->all(), $id);
+        if($this->checkProjectOwner($id) == true){
+            return $this->service->update($request->all(), $id);
+        }
+        return response()->json(["error" => true, "message" => "Permissão negada!"], 412);
     }
 
     /**
@@ -69,11 +75,15 @@ class ProjectController extends Controller
      */
     public function destroy($id)
     {
-        return $this->service->delete($id);
+        if($this->checkProjectOwner($id) == true){
+            return $this->service->delete($id);
+        }
+        return response()->json(['error'=> true, 'message' => 'Permissão negada!']);
     }
 
     /**
-     * @param Request $request
+     * Add members in project. Request = array/int member_ids
+     * @param Request $request Array/int
      * @param $id
      * @return \Illuminate\Http\JsonResponse
      */
@@ -83,6 +93,7 @@ class ProjectController extends Controller
     }
 
     /**
+     * Remove members in project. Request = array/int member_ids
      * @param Request $request
      * @param $id
      * @return \Illuminate\Http\JsonResponse
@@ -92,10 +103,16 @@ class ProjectController extends Controller
         return $this->service->removeMember($request->all(), $id);
     }
 
+    /**
+     * Get all members in project
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function members($id)
     {
         return $this->service->members($id);
     }
+
     /**
      * @param $projectId
      * @param $userId
@@ -104,5 +121,11 @@ class ProjectController extends Controller
     public function isMember($projectId, $userId)
     {
         return $this->service->isMember($projectId, $userId);
+    }
+
+    private function checkProjectOwner($projectId)
+    {
+        $userId = \Authorizer::getResourceOwnerId();
+        return $this->service->isOwner($projectId, $userId);
     }
 }
