@@ -46,10 +46,10 @@ class ProjectController extends Controller
      */
     public function show($id)
     {
-        if($this->checkProjectOwner($id) == true){
+        if($this->checkPermissions($id) == true){
             return $this->service->show($id);
         }
-        return response()->json(["error" => true, "message" => "Permissão negada!"], 412);
+        return response()->json(["error" => true, "message" => "Acesso negado!"], 412);
     }
 
     /**
@@ -64,7 +64,7 @@ class ProjectController extends Controller
         if($this->checkProjectOwner($id) == true){
             return $this->service->update($request->all(), $id);
         }
-        return response()->json(["error" => true, "message" => "Permissão negada!"], 412);
+        return response()->json(["error" => true, "message" => "Acesso negado!"], 412);
     }
 
     /**
@@ -78,7 +78,7 @@ class ProjectController extends Controller
         if($this->checkProjectOwner($id) == true){
             return $this->service->delete($id);
         }
-        return response()->json(['error'=> true, 'message' => 'Permissão negada!']);
+        return response()->json(['error'=> true, 'message' => "Acesso negado!"]);
     }
 
     /**
@@ -115,11 +115,11 @@ class ProjectController extends Controller
 
     /**
      * @param $projectId
-     * @param $userId
-     * @return \Illuminate\Http\JsonResponse
+     * @return bool|\Illuminate\Http\JsonResponse
      */
-    public function isMember($projectId, $userId)
+    private function isMember($projectId)
     {
+        $userId = \Authorizer::getResourceOwnerId();
         return $this->service->isMember($projectId, $userId);
     }
 
@@ -127,5 +127,14 @@ class ProjectController extends Controller
     {
         $userId = \Authorizer::getResourceOwnerId();
         return $this->service->isOwner($projectId, $userId);
+    }
+
+    public function checkPermissions($projectId)
+    {
+        if($this->checkProjectOwner($projectId) || $this->isMember($projectId)){
+            return true;
+        }
+
+        return false;
     }
 }

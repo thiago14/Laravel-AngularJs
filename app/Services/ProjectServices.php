@@ -18,16 +18,11 @@ class ProjectServices
      * @var ProjectValidator
      */
     private $validator;
-    /**
-     * @var ProjectMemberRepository
-     */
-    private $repository_members;
 
-    public function __construct(ProjectRepository $repository, ProjectValidator $validator, ProjectMemberRepository $repository_members)
+    public function __construct(ProjectRepository $repository, ProjectValidator $validator)
     {
         $this->repository = $repository;
         $this->validator = $validator;
-        $this->repository_members = $repository_members;
     }
 
     public function create(array $data)
@@ -58,7 +53,7 @@ class ProjectServices
         } catch (\Exception $e) {
             return response()->json([
                 "error" => true,
-                "message" => 'N„o foi possÌvel adicioner este membro.'
+                "message" => 'N√£o foi poss√≠vel adicioner este membro.'
             ], 412);
         }
     }
@@ -74,7 +69,7 @@ class ProjectServices
             } catch (\Exception $e) {
                 return response()->json([
                     "error" => true,
-                    "message" => 'N„o foi possÌvel remover este membro.'
+                    "message" => 'N√£o foi poss√≠vel remover este membro.'
                 ], 412);
             }
         } else {
@@ -84,7 +79,7 @@ class ProjectServices
             } catch (\Exception $e) {
                 return response()->json([
                     "error" => true,
-                    "message" => 'N„o foi possÌvel remover este membro.'
+                    "message" => 'N√£o foi poss√≠vel remover este membro.'
                 ], 412);
             }
         }
@@ -110,7 +105,7 @@ class ProjectServices
         } catch (\Exception $e) {
             return response()->json([
                 "error" => true,
-                "message" => "Projeto ID: {$id} n„o encontrado!"
+                "message" => "Projeto ID: {$id} n√£o encontrado!"
             ], 412);
         }
     }
@@ -134,7 +129,7 @@ class ProjectServices
         } catch (\Exception $e) {
             return response()->json([
                 "error" => true,
-                "message" => "N„o foi possÌvel deletar o ID: {$id}"
+                "message" => "N√£o foi poss√≠vel deletar o ID: {$id}"
             ], 412);
         }
     }
@@ -146,7 +141,7 @@ class ProjectServices
         } catch (\Exception $e) {
             return response()->json([
                 "error" => true,
-                "message" => "N„o foi possÌvel carregar os membros"
+                "message" => "N√£o foi poss√≠vel carregar os membros"
             ], 412);
         }
     }
@@ -154,17 +149,16 @@ class ProjectServices
     public function isMember($projectId, $userId)
     {
         try{
-            $result = $this->repository->isMember($projectId, $userId);
-            if(is_numeric($result)){
-                return response()->json(['result'=>$result]);
+            if($this->repository->isMember($projectId, $userId) == false){
+                return false;
             }
 
-            return response()->json(['result'=> false]);
+            return true;
 
         }catch (\Exception $e){
             return response()->json([
                 "error" => true,
-                "message" => "N„o foi possÌvel validar o ID: {$userId}"
+                "message" => "N√£o foi poss√≠vel validar o ID: {$userId}"
             ], 412);
         }
     }
@@ -172,8 +166,7 @@ class ProjectServices
     public function isOwner($projectId, $userId)
     {
         try{
-            $result = $this->repository->isOwner($projectId, $userId);
-            if(isset($result->id) && is_int($result->id)){
+            if(count($this->repository->isOwner($projectId, $userId))){
                 return true;
             }
 
@@ -182,7 +175,7 @@ class ProjectServices
         }catch (\Exception $e){
             return response()->json([
                 "error" => true,
-                "message" => "N„o foi possÌvel validar o ID: {$userId}"
+                "message" => "N√£o foi poss√≠vel validar o ID: {$userId}"
             ], 412);
         }
     }

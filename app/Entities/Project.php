@@ -42,6 +42,6 @@ class Project extends Model implements Transformable
 
     public function members()
     {
-        return $this->hasMany(ProjectMember::class);
+        return $this->belongsToMany(User::class,'project_members');
     }
 }

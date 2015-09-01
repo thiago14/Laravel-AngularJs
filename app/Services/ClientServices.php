@@ -55,7 +55,7 @@ class ClientServices
         try{
             return response()->json($this->repository->find($id));
         } catch(\Exception $e) {
-            return ["error" => true, "message" => "Cliente ID: {$id} não encontrado!"];
+            return ["error" => true, "message" => utf8_encode("Cliente ID: {$id} não encontrado!")];
         }
     }
 
@@ -66,7 +66,7 @@ class ClientServices
         } catch(\Exception $e) {
             return response()->json([
                 "error" => true,
-                "message" => "Erro ao Carregar Clientes."
+                "message" => utf8_encode("Erro ao Carregar Clientes.")
             ],412);
         }
     }
@@ -78,7 +78,7 @@ class ClientServices
         } catch(\Exception $e) {
             return response()->json([
                 "error" => true,
-                "message" => "Não foi possível deletar o ID: {$id}"
+                "message" => utf8_encode("Não foi possível deletar o ID: {$id}")
             ], 412);
         }
     }

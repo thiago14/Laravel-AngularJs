@@ -57,7 +57,7 @@ class ProjectNoteServices
         } catch (\Exception $e) {
             return response()->json([
                 "error" => true,
-                "message" => "Anotação ID: {$id} não encontrada!"
+                "message" => utf8_encode("Anotação ID: {$id} não encontrada!")
             ], 412);
         }
     }
@@ -69,7 +69,7 @@ class ProjectNoteServices
         } catch (\Exception $e) {
             return response()->json([
                 "error" => true,
-                "message" => "Erro ao Carregar Anotação."
+                "message" => utf8_encode("Erro ao Carregar Anotação.")
             ], 412);
         }
     }
@@ -81,7 +81,7 @@ class ProjectNoteServices
         } catch (\Exception $e) {
             return response()->json([
                 "error" => true,
-                "message" => "Não foi possível deletar o ID: {$id}"
+                "message" => utf8_encode("Não foi possível deletar o ID: {$id}")
             ], 412);
         }
     }
