@@ -56,11 +56,6 @@ class GPRepositoryProvider extends ServiceProvider
         );
 
         $this->app->bind(
-            ProjectMemberRepository::class,
-            ProjectMemberRepositoryEloquent::class
-        );
-
-        $this->app->bind(
             UserRepository::class,
             UserRepositoryEloquent::class
         );

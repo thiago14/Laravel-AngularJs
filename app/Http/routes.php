@@ -17,15 +17,13 @@ Route::group(['middleware' => 'oauth'], function () {
         /* Tarefas dos Projetos */
         Route::resource('project.task', 'ProjectTaskController', ['except' => ['create', 'edit', 'update']]);
 
-        /* Anotações dos Projetos */
+        /* AnotaÃ§Ãµes dos Projetos */
         Route::resource('project.note', 'ProjectNoteController', ['except' => ['create', 'edit', 'update']]);
 
         /* Membros do Projeto */
-        Route::resource('project.member', 'ProjectMemberController', ['except' => ['create', 'edit', 'update']]);
-
         Route::group(['prefix'=>'project'], function(){
             Route::post('{id}/addMember', 'ProjectController@addMember');
             Route::post('{id}/removeMember', 'ProjectController@removeMember');
-            Route::get('{id}/members', 'ProjectController@member');
+            Route::get('{id}/members', 'ProjectController@members');
         });
 });

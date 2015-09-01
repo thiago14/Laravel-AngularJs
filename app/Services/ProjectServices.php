@@ -137,7 +137,9 @@ class ProjectServices
     public function members($id)
     {
         try {
-            return response()->json($this->repository->find($id)->members());
+            $project = $this->repository->skipPresenter()->find($id);
+            $this->repository->skipPresenter(false);
+            return response()->json($project->members);
         } catch (\Exception $e) {
             return response()->json([
                 "error" => true,

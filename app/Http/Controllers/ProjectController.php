@@ -103,10 +103,8 @@ class ProjectController extends Controller
      */
     public function removeMember(Request $request, $id)
     {
-        if($this->checkPermissions($id) == true){
-            return $this->service->removeMember($request->all(), $id);
-        }
-        return response()->json(['error'=> true, 'message' => "Acesso negado!"]);
+        return $this->service->removeMember($request->all(), $id);
+
     }
 
     /**
@@ -116,10 +114,7 @@ class ProjectController extends Controller
      */
     public function members($id)
     {
-        if($this->checkPermissions($id) == true){
-            return $this->service->members($id);
-        }
-        return response()->json(['error'=> true, 'message' => "Acesso negado!"]);
+        return $this->service->members($id);
     }
 
     /**
