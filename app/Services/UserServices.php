@@ -3,22 +3,22 @@
 namespace GerenciadorProjetos\Services;
 
 
-use GerenciadorProjetos\Repositories\ClientRepository;
-use GerenciadorProjetos\Validators\ClientValidator;
+use GerenciadorProjetos\Repositories\UserRepository;
+use GerenciadorProjetos\Validators\UserValidator;
 use Prettus\Validator\Exceptions\ValidatorException;
 
-class ClientServices
+class UserServices
 {
     /**
-     * @var ClientRepository
+     * @var UserRepository
      */
     protected $repository;
     /**
-     * @var ClientValidator
+     * @var UserValidator
      */
     private $validator;
 
-    public function __construct(ClientRepository $repository, ClientValidator $validator)
+    public function __construct(UserRepository $repository, UserValidator $validator)
     {
         $this->repository = $repository;
         $this->validator = $validator;
@@ -55,7 +55,7 @@ class ClientServices
         try{
             return response()->json($this->repository->find($id));
         } catch(\Exception $e) {
-            return ["error" => true, "message" => utf8_encode("Cliente ID: {$id} não encontrado!")];
+            return ["error" => true, "message" => utf8_encode("Usuário ID: {$id} não encontrado!")];
         }
     }
 
@@ -66,7 +66,7 @@ class ClientServices
         } catch(\Exception $e) {
             return response()->json([
                 "error" => true,
-                "message" => utf8_encode("Erro ao Carregar Clientes.")
+                "message" => utf8_encode("Erro ao Carregar Usuários.")
             ],412);
         }
     }

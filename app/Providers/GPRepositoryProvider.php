@@ -12,6 +12,8 @@ use GerenciadorProjetos\Repositories\ProjectRepository;
 use GerenciadorProjetos\Repositories\ProjectRepositoryEloquent;
 use GerenciadorProjetos\Repositories\ProjectTaskRepository;
 use GerenciadorProjetos\Repositories\ProjectTaskRepositoryEloquent;
+use GerenciadorProjetos\Repositories\UserRepository;
+use GerenciadorProjetos\Repositories\UserRepositoryEloquent;
 use Illuminate\Support\ServiceProvider;
 
 class GPRepositoryProvider extends ServiceProvider
@@ -56,6 +58,11 @@ class GPRepositoryProvider extends ServiceProvider
         $this->app->bind(
             ProjectMemberRepository::class,
             ProjectMemberRepositoryEloquent::class
+        );
+
+        $this->app->bind(
+            UserRepository::class,
+            UserRepositoryEloquent::class
         );
     }
 }

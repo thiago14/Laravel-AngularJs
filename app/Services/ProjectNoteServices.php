@@ -57,7 +57,7 @@ class ProjectNoteServices
         } catch (\Exception $e) {
             return response()->json([
                 "error" => true,
-                "message" => utf8_encode("AnotaÁ„o ID: {$id} n„o encontrada!")
+                "message" => utf8_encode("Anota√ß√£o ID: {$id} n√£o encontrada!")
             ], 412);
         }
     }
@@ -69,7 +69,7 @@ class ProjectNoteServices
         } catch (\Exception $e) {
             return response()->json([
                 "error" => true,
-                "message" => utf8_encode("Erro ao Carregar AnotaÁ„o.")
+                "message" => utf8_encode("Erro ao Carregar Anota√ß√£o.")
             ], 412);
         }
     }
@@ -81,7 +81,7 @@ class ProjectNoteServices
         } catch (\Exception $e) {
             return response()->json([
                 "error" => true,
-                "message" => utf8_encode("N„o foi possÌvel deletar o ID: {$id}")
+                "message" => utf8_encode("N√£o foi poss√≠vel deletar o ID: {$id}")
             ], 412);
         }
     }

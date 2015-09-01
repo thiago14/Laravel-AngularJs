@@ -57,7 +57,7 @@ class ProjectTaskServices
         } catch (\Exception $e) {
             return response()->json([
                 "error" => true,
-                "message" => utf8_encode("Tarefa ID: {$id} n„o encontrada!")
+                "message" => utf8_encode("Tarefa ID: {$id} n√£o encontrada!")
             ], 412);
         }
     }
@@ -81,7 +81,7 @@ class ProjectTaskServices
         } catch (\Exception $e) {
             return response()->json([
                 "error" => true,
-                "message" => utf8_encode("N„o foi possÌvel deletar o ID: {$id}")
+                "message" => utf8_encode("N√£o foi poss√≠vel deletar o ID: {$id}")
             ], 412);
         }
     }
