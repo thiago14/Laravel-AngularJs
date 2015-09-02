@@ -3,10 +3,14 @@
 namespace GerenciadorProjetos\Services;
 
 
+use GerenciadorProjetos\Entities\ProjectFile;
 use GerenciadorProjetos\Repositories\ProjectMemberRepository;
 use GerenciadorProjetos\Repositories\ProjectRepository;
 use GerenciadorProjetos\Validators\ProjectValidator;
 use Prettus\Validator\Exceptions\ValidatorException;
+
+use Illuminate\Contracts\Filesystem\Factory as Storage;
+use Illuminate\Filesystem\Filesystem;
 
 class ProjectServices
 {
@@ -18,11 +22,26 @@ class ProjectServices
      * @var ProjectValidator
      */
     private $validator;
+    /**
+     * @var Filesystem
+     */
+    private $filesystem;
+    /**
+     * @var Storage
+     */
+    private $storage;
+    /**
+     * @var ProjectFile
+     */
+    private $projectFile;
 
-    public function __construct(ProjectRepository $repository, ProjectValidator $validator)
+    public function __construct(ProjectRepository $repository, ProjectValidator $validator, Filesystem $filesystem, Storage $storage, ProjectFile $projectFile)
     {
         $this->repository = $repository;
         $this->validator = $validator;
+        $this->filesystem = $filesystem;
+        $this->storage = $storage;
+        $this->projectFile = $projectFile;
     }
 
     public function create(array $data)
@@ -179,6 +198,34 @@ class ProjectServices
                 "error" => true,
                 "message" => "Não foi possível validar o ID: {$userId}"
             ], 412);
+        }
+    }
+
+    public function createFile(array $data)
+    {
+        try{
+            $project = $this->repository->skipPresenter()->find($data['project_id']);
+            $projectFile = $project->files()->create($data);
+
+            $this->storage->put($projectFile->id.'.'.$data['extension'], $this->filesystem);
+            return response()->json(['message'=> "Arquivo salvo com sucesso!"]);
+        }catch (\Exception $e){
+            return response()->json(['error' => true ,'message'=> "Erro ao tentar salvar o arquivo."], 412);
+        }
+    }
+
+    public function deleteFile($fileId)
+    {
+        try{
+            $file = $this->projectFile->find($fileId);
+            if($this->storage->exists($file->id.'.'.$file->extension)){
+                $this->storage->delete($file->id.'.'.$file->extension);
+            }
+            $file->delete();
+
+            return response()->json(['message'=> "Arquivo excluido com sucesso!"]);
+        }catch (\Exception $e){
+            return response()->json(['error' => true ,'message'=> "Erro ao tentar excluir o arquivo."], 412);
         }
     }
 }
