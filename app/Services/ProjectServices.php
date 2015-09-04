@@ -6,6 +6,7 @@ namespace GerenciadorProjetos\Services;
 use GerenciadorProjetos\Entities\ProjectFile;
 use GerenciadorProjetos\Repositories\ProjectMemberRepository;
 use GerenciadorProjetos\Repositories\ProjectRepository;
+use GerenciadorProjetos\Validators\ProjectFileValidator;
 use GerenciadorProjetos\Validators\ProjectValidator;
 use Prettus\Validator\Exceptions\ValidatorException;
 
@@ -34,14 +35,19 @@ class ProjectServices
      * @var ProjectFile
      */
     private $projectFile;
+    /**
+     * @var ProjectFileValidator
+     */
+    private $validatorFile;
 
-    public function __construct(ProjectRepository $repository, ProjectValidator $validator, Filesystem $filesystem, Storage $storage, ProjectFile $projectFile)
+    public function __construct(ProjectRepository $repository, ProjectValidator $validator, ProjectFileValidator $validatorFile, Filesystem $filesystem, Storage $storage, ProjectFile $projectFile)
     {
         $this->repository = $repository;
         $this->validator = $validator;
         $this->filesystem = $filesystem;
         $this->storage = $storage;
         $this->projectFile = $projectFile;
+        $this->validatorFile = $validatorFile;
     }
 
     public function create(array $data)
@@ -203,14 +209,19 @@ class ProjectServices
 
     public function createFile(array $data)
     {
-        try{
+        try {
+            $this->validatorFile->with($data)->passesOrFail();
+            $data['extension'] = $data['file']->getClientOriginalExtension();
             $project = $this->repository->skipPresenter()->find($data['project_id']);
             $projectFile = $project->files()->create($data);
 
-            $this->storage->put($projectFile->id.'.'.$data['extension'], $this->filesystem);
-            return response()->json(['message'=> "Arquivo salvo com sucesso!"]);
-        }catch (\Exception $e){
-            return response()->json(['error' => true ,'message'=> "Erro ao tentar salvar o arquivo."], 412);
+            $this->storage->put($projectFile->id . '.' . $data['extension'], $this->filesystem);
+            return response()->json(['message' => "Arquivo salvo com sucesso!"]);
+        } catch (ValidatorException $e) {
+            return response()->json([
+                "error" => true,
+                "message" => $e->getMessageBag()
+            ], 412);
         }
     }
 

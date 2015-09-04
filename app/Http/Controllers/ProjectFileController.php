@@ -21,16 +21,15 @@ class ProjectFileController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  Request  $request
+     * @param  int $id
+     * @param  Request $request
      * @return Response
      */
     public function store($id, Request $request)
     {
-        if($this->checkPermissions($id) == true) {
-            $data['file'] = $file = $request->file('file');
-            $data['extension'] = $file->getClientOriginalExtension();
-            $data['name'] = $request->name;
-            $data['description'] = $request->description;
+        if ($this->checkPermissions($id) == true) {
+            $data = $request->all();
+            $data['file'] = $request->file('file');
             $data['project_id'] = $id;
             return $this->service->createFile($data);
         }
@@ -41,16 +40,16 @@ class ProjectFileController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @param  int  $fileId
+     * @param  int $id
+     * @param  int $fileId
      * @return Response
      */
     public function destroy($id, $fileId)
     {
-        if($this->checkPermissions($id) == true){
+        if ($this->checkPermissions($id) == true) {
             return $this->service->deleteFile($fileId);
         }
-        return response()->json(['error'=> true, 'message' => "Acesso negado!"]);
+        return response()->json(['error' => true, 'message' => "Acesso negado!"]);
     }
 
     /**
@@ -71,7 +70,7 @@ class ProjectFileController extends Controller
 
     public function checkPermissions($projectId)
     {
-        if($this->checkProjectOwner($projectId) || $this->isMember($projectId)){
+        if ($this->checkProjectOwner($projectId) || $this->isMember($projectId)) {
             return true;
         }
 
