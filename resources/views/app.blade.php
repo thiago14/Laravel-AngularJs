@@ -37,7 +37,8 @@
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li><a href="{{ url('/') }}">Home</a></li>
+                <li><a href="{{ url('/#/home') }}">Home</a></li>
+                <li><a href="{{ url('/#/clients') }}">Clientes</a></li>
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
@@ -72,10 +73,17 @@
     <script src="{{ asset('build/js/vendor/query-string.js') }}" type="text/javascript"></script>
     <script src="{{ asset('build/js/vendor/angular-oauth2.min.js') }}" type="text/javascript"></script>
 
+    {{--Controllers--}}
     <script src="{{ asset('build/js/app.js') }}" type="text/javascript"></script>
     <script src="{{ asset('build/js/controllers/login.js') }}" type="text/javascript"></script>
     <script src="{{ asset('build/js/controllers/home.js') }}" type="text/javascript"></script>
-
+    <script src="{{ asset('build/js/controllers/home.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('build/js/controllers/client/clientList.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('build/js/controllers/client/clientNew.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('build/js/controllers/client/clientEdit.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('build/js/controllers/client/clientRemove.js') }}" type="text/javascript"></script>
+    {{--Services--}}
+    <script src="{{ asset('build/js/services/client.js') }}" type="text/javascript"></script>
 @else
     <script src="{{ elixir('js/all.js') }}" type="text/javascript"></script>
 @endif

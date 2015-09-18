@@ -5,10 +5,10 @@ angular.module('app.controllers')
             password: '',
         };
 
-        $scope.error = {
-            message: '',
-            error: false
-        }
+        //$scope.error = {
+        //    message: '',
+        //    error: false
+        //}
         $scope.login = function () {
             if($scope.formLogin.$valid){
                 OAuth.getAccessToken($scope.user).then(function () {

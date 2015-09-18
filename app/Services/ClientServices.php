@@ -53,7 +53,7 @@ class ClientServices
     public function show($id)
     {
         try{
-            return response()->json($this->repository->find($id));
+            return response()->json($this->repository->skipPresenter()->find($id));
         } catch(\Exception $e) {
             return ["error" => true, "message" => utf8_encode("Cliente ID: {$id} não encontrado!")];
         }
@@ -62,7 +62,7 @@ class ClientServices
     public function all()
     {
         try{
-            return response()->json($this->repository->all());
+            return response()->json($this->repository->skipPresenter()->all());
         } catch(\Exception $e) {
             return response()->json([
                 "error" => true,
