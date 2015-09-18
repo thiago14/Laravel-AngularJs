@@ -23,11 +23,10 @@ app.config([
         .when('/login', {
             templateUrl: 'build/views/login.html',
             controller: 'LoginController'
-        })
-        .when('/home', {
+        }).when('/home', {
             templateUrl: 'build/views/home.html',
             controller: 'HomeController'
-        })
+        }) // Rotas de Clientes
         .when('/clients', {
             templateUrl: 'build/views/client/list.html',
             controller: 'ClientListController'
@@ -43,6 +42,19 @@ app.config([
         }).when('/clients/:id/remove', {
             templateUrl: 'build/views/client/remove.html',
             controller: 'ClientRemoveController'
+        }) // Rotas de Notas
+        .when('/project/:id/notes', {
+            templateUrl: 'build/views/project/note/list.html',
+            controller: 'NoteListController'
+        }).when('/project/:id/note/new', {
+            templateUrl: 'build/views/project/note/new.html',
+            controller: 'NoteNewController'
+        }).when('/project/:id/note/:idNote/edit', {
+            templateUrl: 'build/views/project/note/edit.html',
+            controller: 'NoteEditController'
+        }).when('/project/:id/note/:idNote/remove', {
+            templateUrl: 'build/views/project/note/remove.html',
+            controller: 'NoteRemoveController'
         });
 
     OAuthProvider.configure({
@@ -66,7 +78,8 @@ app.run(['$rootScope', '$window', 'OAuth', function($rootScope, $window, OAuth){
         $rootScope.error = {
             message: '',
             error: false
-        }
+        };
+
         if('invalid_grant' === rejection.data.error){
             return;
         }
@@ -74,8 +87,9 @@ app.run(['$rootScope', '$window', 'OAuth', function($rootScope, $window, OAuth){
         if('invalid_token' === rejection.data.error){
             return OAuth.getRefreshToken();
         }
+        console.log(rejection.data.error);
         $rootScope.error.error = true;
         $rootScope.error.message = rejection.data.error;
-        return $window.location.href = '/#/login';
+        return $window.location.href = '#/login';
     });
 }]);
