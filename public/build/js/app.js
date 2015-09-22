@@ -87,7 +87,7 @@ app.run(['$rootScope', '$window', 'OAuth', function($rootScope, $window, OAuth){
         if('invalid_token' === rejection.data.error){
             return OAuth.getRefreshToken();
         }
-        console.log(rejection.data.error);
+        //console.log(rejection.data.error);
         $rootScope.error.error = true;
         $rootScope.error.message = rejection.data.error;
         return $window.location.href = '#/login';

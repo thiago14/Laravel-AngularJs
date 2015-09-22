@@ -77,7 +77,7 @@ class ProjectNoteServices
     public function delete($id)
     {
         try {
-            return response()->json($this->repository->delete($id));
+            return response()->json($this->repository->skipPresenter()->delete($id));
         } catch (\Exception $e) {
             return response()->json([
                 "error" => true,
