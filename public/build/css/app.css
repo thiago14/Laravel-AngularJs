@@ -5885,6 +5885,8 @@ only screen and (min-device-pixel-ratio : 1.5) {
 }
 
 
+.dropdown-menu li:hover .sub-menu {visibility: visible;}
 
+.dropdown:hover .dropdown-menu { display: block;}
 
 /*# sourceMappingURL=app.css.map*/

@@ -6,29 +6,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Gerenciador de Projetos</title>
     @if(Config::get('app.debug'))
-        <link rel="stylesheet" href="{{ asset('build/css/app.css') }}" />
-        <link rel="stylesheet" href="{{ asset('build/css/components.css') }}" />
-        <link rel="stylesheet" href="{{ asset('build/css/flaticon.css') }}" />
-        <link rel="stylesheet" href="{{ asset('build/css/font-awesome.css') }}" />
+        <link rel="stylesheet" href="{{ asset('build/css/app.css') }}"/>
+        <link rel="stylesheet" href="{{ asset('build/css/components.css') }}"/>
+        <link rel="stylesheet" href="{{ asset('build/css/flaticon.css') }}"/>
+        <link rel="stylesheet" href="{{ asset('build/css/font-awesome.css') }}"/>
     @else
-        <link rel="stylesheet" href="{{ elixir('css/all.css') }}" />
-    @endif
+        <link rel="stylesheet" href="{{ elixir('css/all.css') }}"/>
+        @endif
 
-    <!-- Fonts -->
-    <link href='//fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'>
+                <!-- Fonts -->
+        <link href='//fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'>
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
 </head>
 <body>
 <nav class="navbar navbar-default">
     <div class="container-fluid">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1">
                 <span class="sr-only">Toggle Navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
@@ -41,33 +42,34 @@
             <ul class="nav navbar-nav">
                 <li><a href="{{ url('/#/home') }}">Home</a></li>
                 <li class="dropdown">
-                    <a href="{{ url('/#/clients') }}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Clientes<span class="caret"></span></a>
+                    <a href="{{ url('/#/clients') }}" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                       aria-haspopup="true" aria-expanded="false">Clientes<span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="{{ url('/#/clients') }}">Listar Clientes</a></li>
                         <li><a href="{{ url('/#/clients/new') }}">Novo Cliente</a></li>
                     </ul>
                 </li>
                 <li class="dropdown">
-                    <a href="{{ url('/#/project') }}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Projetos<span class="caret"></span></a>
+                    <a href="{{ url('/#/project') }}" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                       aria-haspopup="true" aria-expanded="false">Projetos<span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="{{ url('/#/project') }}">Listar Projetos</a></li>
                         <li><a href="{{ url('/#/project/new') }}">Novo Projeto</a></li>
-                        <li><a href="{{ url('/#/project') }}">Notas</a></li>
                     </ul>
                 </li>
             </ul>
-            <ul class="nav navbar-nav navbar-right">
-                @if (Auth::guest())
-                    <li><a href="{{ url('/#/login') }}">Login</a></li>
-                    <li><a href="{{ url('/#/register') }}">Register</a></li>
-                @else
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ Auth::user()->name }} <span class="caret"></span></a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="{{ url('/auth/logout') }}">Logout</a></li>
-                        </ul>
-                    </li>
-                @endif
+            <ul class="nav navbar-nav navbar-right" ng-if="user.name == ''">
+                <li><a href="{{ url('/#/login') }}">Login</a></li>
+                <li><a href="{{ url('/#/register') }}">Register</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right" ng-if="user.name != ''">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                       aria-expanded="false" ng-model="user.name">@{{user.name}}<span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="{{ url('/#/logout') }}">Logout</a></li>
+                    </ul>
+                </li>
             </ul>
         </div>
     </div>
@@ -77,6 +79,7 @@
 
 @if(Config::get('app.debug'))
     <script src="{{ asset('build/js/vendor/jquery.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('build/js/vendor/bootstrap.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('build/js/vendor/angular.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('build/js/vendor/angular-route.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('build/js/vendor/angular-resource.min.js') }}" type="text/javascript"></script>
