@@ -53,7 +53,7 @@ class ProjectNoteServices
     public function show($id, $noteId)
     {
         try {
-            return response()->json($this->repository->skipPresenter()->find($noteId));
+            return response()->json($this->repository->find($noteId));
         } catch (\Exception $e) {
             return response()->json([
                 "error" => true,
@@ -65,7 +65,7 @@ class ProjectNoteServices
     public function all($id)
     {
         try {
-            return response()->json($this->repository->skipPresenter()->findWhere(['project_id'=>$id]));
+            return response()->json($this->repository->findWhere(['project_id'=>$id]));
         } catch (\Exception $e) {
             return response()->json([
                 "error" => true,
@@ -77,7 +77,7 @@ class ProjectNoteServices
     public function delete($id)
     {
         try {
-            return response()->json($this->repository->skipPresenter()->delete($id));
+            return response()->json($this->repository->delete($id));
         } catch (\Exception $e) {
             return response()->json([
                 "error" => true,

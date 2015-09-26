@@ -17,8 +17,19 @@ app.provider('appConfig', function(){
 });
 
 app.config([
-    '$routeProvider', 'OAuthProvider', 'OAuthTokenProvider', 'appConfigProvider',
-    function ($routeProvider, OAuthProvider, OAuthTokenProvider, appConfigProvider) {
+    '$routeProvider', '$httpProvider', 'OAuthProvider', 'OAuthTokenProvider', 'appConfigProvider',
+    function ($routeProvider, $httpProvider, OAuthProvider, OAuthTokenProvider, appConfigProvider) {
+    $httpProvider.defaults.transformResponse = function(data, headers){
+        var headersGetter = headers();
+        if(headersGetter['content-type'] == 'application/json' || headersGetter['content-type'] == 'application/json' ){
+            var dataJson = JSON.parse(data);
+            if(dataJson.hasOwnProperty('data')){
+                dataJson = dataJson.data;
+            }
+            return dataJson
+        }
+        return data;
+    };
     $routeProvider
         .when('/login', {
             templateUrl: 'build/views/login.html',
@@ -72,7 +83,7 @@ app.config([
     });
 }]);
 
-app.run(['$rootScope', '$window', 'OAuth', function($rootScope, $window, OAuth){
+app.run(['$rootScope', '$window', '$location', 'OAuth', function($rootScope, $window, $location, OAuth){
     $rootScope.$on('oauth:error', function(event, rejection){
 
         $rootScope.error = {
@@ -91,5 +102,18 @@ app.run(['$rootScope', '$window', 'OAuth', function($rootScope, $window, OAuth){
         $rootScope.error.error = true;
         $rootScope.error.message = rejection.data.error;
         return $window.location.href = '#/login';
+    });
+    $rootScope.$on('$routeChangeStart', function (event, nextRoute, currentRoute) {
+        //Verifica se o usuário está autenticado
+        if (!OAuth.isAuthenticated()) {
+            //Guarda a rota que o usuário acessou
+            $rootScope.rotaDepoisLogin = $location.path();
+            //Redireciona para o login quebrando o histórico do browser, ou seja, o login não constará no histórico do browser
+                $location.path('/#/login').replace();
+        } else {
+            $location.path($rootScope.postLogInRoute).replace();
+            //Zera o rotaDepoisLogin
+            $rootScope.rotaDepoisLogin = null;
+        }
     });
 }]);

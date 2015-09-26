@@ -11,11 +11,12 @@ class ClientTransformer extends TransformerAbstract
     public function transform(Client $client)
     {
         return [
-            'nome' => $client->name,
-            'responsavel' => $client->responsible,
+            'id' => $client->id,
+            'name' => $client->name,
+            'responsible' => $client->responsible,
             'email' => $client->email,
-            'telefone' => $client->phone,
-            'endereco' => $client->address,
+            'phone' => $client->phone,
+            'address' => $client->address,
             'obs' => $client->obs,
         ];
     }
