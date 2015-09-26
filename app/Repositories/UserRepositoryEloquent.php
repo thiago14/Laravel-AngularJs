@@ -3,6 +3,8 @@
 namespace GerenciadorProjetos\Repositories;
 
 use GerenciadorProjetos\Entities\User;
+use GerenciadorProjetos\Presenters\UserPresenter;
+use Prettus\Repository\Criteria\RequestCriteria;
 use Prettus\Repository\Eloquent\BaseRepository;
 
 class UserRepositoryEloquent extends BaseRepository implements UserRepository

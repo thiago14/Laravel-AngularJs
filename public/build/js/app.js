@@ -83,7 +83,7 @@ app.config([
     });
 }]);
 
-app.run(['$rootScope', '$window', '$location', 'OAuth', function($rootScope, $window, $location, OAuth){
+app.run(['$rootScope', '$window', 'OAuth', function($rootScope, $window, OAuth){
     $rootScope.$on('oauth:error', function(event, rejection){
 
         $rootScope.error = {
@@ -102,18 +102,5 @@ app.run(['$rootScope', '$window', '$location', 'OAuth', function($rootScope, $wi
         $rootScope.error.error = true;
         $rootScope.error.message = rejection.data.error;
         return $window.location.href = '#/login';
-    });
-    $rootScope.$on('$routeChangeStart', function (event, nextRoute, currentRoute) {
-        //Verifica se o usuário está autenticado
-        if (!OAuth.isAuthenticated()) {
-            //Guarda a rota que o usuário acessou
-            $rootScope.rotaDepoisLogin = $location.path();
-            //Redireciona para o login quebrando o histórico do browser, ou seja, o login não constará no histórico do browser
-                $location.path('/#/login').replace();
-        } else {
-            $location.path($rootScope.postLogInRoute).replace();
-            //Zera o rotaDepoisLogin
-            $rootScope.rotaDepoisLogin = null;
-        }
     });
 }]);

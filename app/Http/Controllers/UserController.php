@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class UserController extends Controller
 {
     /**
-     * @var Userservice
+     * @var UserService
      */
     private $service;
 
@@ -58,7 +58,7 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        return$this->service->update($request->all(), $id);
+        return $this->service->update($request->all(), $id);
     }
 
     /**
@@ -70,5 +70,11 @@ class UserController extends Controller
     public function destroy($id)
     {
         return $this->service->delete($id);
+    }
+
+    public function authenticated()
+    {
+        $userId = \Authorizer::getResourceOwnerId();
+        return $this->service->show($userId);
     }
 }

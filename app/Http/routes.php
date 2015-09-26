@@ -10,6 +10,9 @@ Route::post('oauth/access_token', function () {
 
 Route::group(['middleware' => 'oauth'], function () {
 
+    /* Usuário */
+    Route::get('user/authenticated', ['as'=>'user.authenticated', 'uses'=>'UserController@authenticated']);
+
     /* Clientes */
     Route::resource('client', 'ClientController', ['except' => ['create', 'edit']]);
 
