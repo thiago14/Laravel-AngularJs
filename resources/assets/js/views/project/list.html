@@ -1,0 +1,40 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="panel panel-default">
+                <div class="panel-heading">Listagem de Projetos</div>
+                <div class="panel-body">
+                    <table class="table">
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>Descrição</th>
+                            <th>Status</th>
+                            <th>Progresso</th>
+                            <th>Prazo</th>
+                            <th>Ação</th>
+                        </tr>
+                        <tr ng-repeat="o in projects">
+                            <td>{{ o.id }}</td>
+                            <td>
+                                {{ o.name }}
+                                <br>
+                                <a ng-href="#/project/{{o.id}}/note/new" class="btn btn-xs btn-info"><i class="fa fa-comments"></i> Nota</a>
+                                <a ng-href="#/project/{{o.id}}/task/new" class="btn btn-xs btn-info"><i class="fa fa-tasks"></i> Tarefa</a>
+                                <a ng-href="#/project/{{o.id}}/member/addMember" class="btn btn-xs btn-info"><i class="fa fa-users"></i> Membros</a>
+                            </td>
+                            <td>{{ o.description | limitTo:25}}...</td>
+                            <td>{{ o.status }}</td>
+                            <td>{{ o.progress }}</td>
+                            <td>{{ o.due_date }}</td>
+                            <td>
+                                <a ng-href="#/project/{{o.id}}/edit" class="btn btn-xs btn-success"><i class="fa fa-edit"></i> Editar</a>
+                                <a ng-href="#/project/{{o.id}}/remove" class="btn btn-xs btn-danger"><i class="fa fa-minus-circle"></i> Excluir</a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -8,6 +8,7 @@ use GerenciadorProjetos\Repositories\ProjectMemberRepository;
 use GerenciadorProjetos\Repositories\ProjectRepository;
 use GerenciadorProjetos\Validators\ProjectFileValidator;
 use GerenciadorProjetos\Validators\ProjectValidator;
+use Illuminate\Contracts\Validation\ValidationException;
 use Prettus\Validator\Exceptions\ValidatorException;
 
 use Illuminate\Contracts\Filesystem\Factory as Storage;
@@ -55,7 +56,7 @@ class ProjectServices
         try {
             $this->validator->with($data)->passesOrFail();
             return $this->repository->create($data);
-        } catch (ValidatorExceptionon $e) {
+        } catch (ValidationException $e) {
             return response()->json([
                 "error" => true,
                 "message" => $e->getMessageBag()
@@ -142,7 +143,8 @@ class ProjectServices
         } catch (\Exception $e) {
             return response()->json([
                 "error" => true,
-                "message" => "Erro ao Carregar Projetos."
+                "message" => "Erro ao Carregar Projetos.",
+                "message_error" => $e->getMessage()
             ], 412);
         }
     }

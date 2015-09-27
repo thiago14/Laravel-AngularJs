@@ -1,5 +1,6 @@
 angular.module('app.controllers')
-    .controller('LoginController', ['$scope', '$location', '$cookies', 'User', 'OAuth', function ($scope, $location, $cookies, User, OAuth) {
+    .controller('LoginController', ['$scope', '$location', '$cookies', 'User', '$rootScope', 'OAuth',
+        function ($scope, $location, $cookies, User, $rootScope,OAuth) {
         $scope.user = {
             username: '',
             password: '',
@@ -15,7 +16,7 @@ angular.module('app.controllers')
                 OAuth.getAccessToken($scope.user).then(function () {
                     User.authenticated({}, {}, function(data){
                         $cookies.putObject('user', data);
-                        $location.path('home');
+                        $location.path($rootScope.rotaDepoisLogin);
                     });
 
                 }, function (data) {

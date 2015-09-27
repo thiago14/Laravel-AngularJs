@@ -46,14 +46,14 @@
                        aria-haspopup="true" aria-expanded="false">Clientes<span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="{{ url('/#/clients') }}">Listar Clientes</a></li>
-                        <li><a href="{{ url('/#/clients/new') }}">Novo Cliente</a></li>
+                        <li><a href="{{ url('/#/client/new') }}">Novo Cliente</a></li>
                     </ul>
                 </li>
                 <li class="dropdown">
                     <a href="{{ url('/#/project') }}" class="dropdown-toggle" data-toggle="dropdown" role="button"
                        aria-haspopup="true" aria-expanded="false">Projetos<span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="{{ url('/#/project') }}">Listar Projetos</a></li>
+                        <li><a href="{{ url('/#/projects') }}">Listar Projetos</a></li>
                         <li><a href="{{ url('/#/project/new') }}">Novo Projeto</a></li>
                     </ul>
                 </li>
@@ -101,12 +101,18 @@
     <script src="{{ asset('build/js/controllers/client/clientEdit.js') }}" type="text/javascript"></script>
     <script src="{{ asset('build/js/controllers/client/clientRemove.js') }}" type="text/javascript"></script>
 
+    <script src="{{ asset('build/js/controllers/project/projectList.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('build/js/controllers/project/projectNew.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('build/js/controllers/project/projectEdit.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('build/js/controllers/project/projectRemove.js') }}" type="text/javascript"></script>
+
     <script src="{{ asset('build/js/controllers/project/note/noteList.js') }}" type="text/javascript"></script>
     <script src="{{ asset('build/js/controllers/project/note/noteNew.js') }}" type="text/javascript"></script>
     <script src="{{ asset('build/js/controllers/project/note/noteEdit.js') }}" type="text/javascript"></script>
     <script src="{{ asset('build/js/controllers/project/note/noteRemove.js') }}" type="text/javascript"></script>
     {{--Services--}}
     <script src="{{ asset('build/js/services/client.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('build/js/services/project.js') }}" type="text/javascript"></script>
     <script src="{{ asset('build/js/services/projectNote.js') }}" type="text/javascript"></script>
     <script src="{{ asset('build/js/services/user.js') }}" type="text/javascript"></script>
 @else

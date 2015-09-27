@@ -41,18 +41,28 @@ app.config([
         .when('/clients', {
             templateUrl: 'build/views/client/list.html',
             controller: 'ClientListController'
-        }).when('/clients/new', {
+        }).when('/client/new', {
             templateUrl: 'build/views/client/new.html',
             controller: 'ClientNewController'
-        }).when('/clients/:id/edit', {
+        }).when('/client/:id/edit', {
             templateUrl: 'build/views/client/edit.html',
             controller: 'ClientEditController'
-        }).when('/clients/:id/edit', {
-            templateUrl: 'build/views/client/edit.html',
-            controller: 'ClientEditController'
-        }).when('/clients/:id/remove', {
+        }).when('/client/:id/remove', {
             templateUrl: 'build/views/client/remove.html',
             controller: 'ClientRemoveController'
+        })// Rotas de Projetos
+        .when('/projects', {
+            templateUrl: 'build/views/project/list.html',
+            controller: 'ProjectListController'
+        }).when('/project/new', {
+            templateUrl: 'build/views/project/new.html',
+            controller: 'ProjectNewController'
+        }).when('/project/:id/edit', {
+            templateUrl: 'build/views/project/edit.html',
+            controller: 'ProjectEditController'
+        }).when('/project/:id/remove', {
+            templateUrl: 'build/views/project/remove.html',
+            controller: 'ProjectRemoveController'
         }) // Rotas de Notas
         .when('/project/:id/notes', {
             templateUrl: 'build/views/project/note/list.html',
@@ -88,36 +98,19 @@ app.run(['$rootScope', '$window', '$location', '$cookies', 'OAuth', function($ro
     if(OAuth.isAuthenticated()){
         var user = $cookies.getObject('user');
         $rootScope.user = {
-            name: user.name
+            id: user.id,
+            name: user.name,
+            email: user.email
         }
     }
 
-    $rootScope.$on('oauth:error', function(event, rejection){
-
-        $rootScope.error = {
-            message: '',
-            error: false
-        };
-
-        if('invalid_grant' === rejection.data.error){
-            return;
-        }
-
-        if('invalid_token' === rejection.data.error){
-            return OAuth.getRefreshToken();
-        }
-        //console.log(rejection.data.error);
-        $rootScope.error.error = true;
-        $rootScope.error.message = rejection.data.error;
-        return $window.location.href = '#/login';
-    });
     $rootScope.$on('$routeChangeStart', function (event, nextRoute, currentRoute) {
         //Verifica se o usuário está autenticado
         if (!OAuth.isAuthenticated()) {
             //Guarda a rota que o usuário acessou
             $rootScope.rotaDepoisLogin = $location.path();
             //Redireciona para o login quebrando o histórico do browser, ou seja, o login não constará no histórico do browser
-                $location.path('#/login').replace();
+                $location.path('login').replace();
         } else {
             $location.path($rootScope.postLogInRoute).replace();
             //Zera o rotaDepoisLogin
