@@ -26,7 +26,7 @@
                             <td>{{ o.description | limitTo:25}}...</td>
                             <td>{{ o.status }}</td>
                             <td>{{ o.progress }}</td>
-                            <td>{{ o.due_date }}</td>
+                            <td>{{ o.due_date | dateBr }}</td>
                             <td>
                                 <a ng-href="#/project/{{o.id}}/edit" class="btn btn-xs btn-success"><i class="fa fa-edit"></i> Editar</a>
                                 <a ng-href="#/project/{{o.id}}/remove" class="btn btn-xs btn-danger"><i class="fa fa-minus-circle"></i> Excluir</a>

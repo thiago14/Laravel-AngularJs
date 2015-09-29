@@ -1,6 +1,7 @@
-var app = angular.module('app', ['ngRoute', 'angular-oauth2', 'app.controllers', 'app.services']);
+var app = angular.module('app', ['ngRoute', 'angular-oauth2', 'app.controllers', 'app.services', 'app.filters']);
 
 angular.module('app.controllers', ['ngMessages','angular-oauth2']);
+angular.module('app.filters', []);
 angular.module('app.services', ['ngResource']);
 
 app.provider('appConfig', function(){
@@ -112,6 +113,7 @@ app.run(['$rootScope', '$window', '$location', '$cookies', 'OAuth', function($ro
             //Redireciona para o login quebrando o histórico do browser, ou seja, o login não constará no histórico do browser
                 $location.path('login').replace();
         } else {
+            OAuth.getRefreshToken();
             $location.path($rootScope.postLogInRoute).replace();
             //Zera o rotaDepoisLogin
             $rootScope.rotaDepoisLogin = null;
