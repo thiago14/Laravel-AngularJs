@@ -6,18 +6,18 @@
                 <div class="panel-body">
                     <form class="form-horizontal" name="form" role="form" method="POST" ng-submit="save()">
 
-                        <div class="form-group" ng-class="{'has-error': !form.client_id.$valid && form.client_id.$touched}">
+                        <div class="form-group" ng-class="{'has-error': !form.clientSelected.$valid && form.clientSelected.$touched}">
                             <label class="col-md-4 control-label">Cliente</label>
 
                             <div class="col-md-6">
-                                <input type="text" name="client_id" ng-model="project.client_id" placeholder="Selecione um cliente"
+                                <input type="text" name="clientSelected" ng-model="clientSelected" placeholder="Selecione um cliente"
                                        typeahead="client as client.name for client in getClients($viewValue) | limitTo:10"
                                        typeahead-loading="loadingLocations"
                                        typeahead-input-formatter="formatName($model)"
                                        class="form-control" required />
                                 <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
 
-                                <div ng-messages="form.client_id.$error" class="help-block" ng-show="form.client_id.$touched">
+                                <div ng-messages="form.clientSelected.$error" class="help-block" ng-show="form.clientSelected.$touched">
                                     <div ng-message="required">Campo Obrigatório</div>
                                 </div>
                             </div>
@@ -60,13 +60,15 @@
                         </div>
 
                         <div class="form-group" ng-class="{'has-error': !form.progress.$valid && form.progress.$touched}">
-                            <label class="col-md-4 control-label">Progresso</label>
+                            <label class="col-md-4 control-label">Progresso (%)</label>
 
                             <div class="col-md-6">
-                                <input type="text" class="form-control" name="progress" ng-model="project.progress" required>
+                                <input type="text" class="form-control" name="progress" ng-model="project.progress" min="0" max="100" required>
 
                                 <div ng-messages="form.progress.$error" class="help-block" ng-show="form.progress.$touched">
                                     <div ng-message="required">Campo Obrigatório</div>
+                                    <div ng-message="min">Valor mínimo aceitável é 0</div>
+                                    <div ng-message="max">Valor máximo aceitável é 100</div>
                                 </div>
                             </div>
                         </div>
@@ -75,10 +77,19 @@
                             <label class="col-md-4 control-label">Data Entrega</label>
 
                             <div class="col-md-6">
-                                <input type="text" class="form-control" name="due_date" ng-model="project.due_date" required>
-
+                                <p class="input-group">
+                                    <input type="text" class="form-control" ng-model="project.due_date" name="due_date"
+                                           datepicker-popup="dd/MM/yyyy" is-open="due_date.status.opened"
+                                           ng-required="true" close-text="Fechar" required />
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default" ng-click="open($event)">
+                                            <i class="glyphicon glyphicon-calendar"></i>
+                                        </button>
+                                    </span>
+                                </p>
                                 <div ng-messages="form.due_date.$error" class="help-block" ng-show="form.due_date.$touched">
                                     <div ng-message="required">Campo Obrigatório</div>
+                                    <div ng-message="date">Data inválida</div>
                                 </div>
                             </div>
                         </div>

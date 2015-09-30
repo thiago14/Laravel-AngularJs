@@ -5,9 +5,20 @@ angular.module('app.controllers')
         $scope.project.progress = 0;
         $scope.project.owner_id = $scope.user.id;
 
+        $scope.now = new Date();
+        $scope.due_date = {
+            status: {
+                opened: false
+            }
+        };
+
+        $scope.open = function($event){
+            $scope.due_date.status.opened = true;
+        };
+
         $scope.save = function () {
             if ($scope.form.$valid) {
-                $scope.project.client_id = $scope.project.client_id.id;
+                $scope.project.client_id = $scope.clientSelected.id;
                 $scope.project.$save().then(function () {
                     $location.path('/projects');
                 });
