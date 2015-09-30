@@ -9,6 +9,10 @@ use Prettus\Repository\Eloquent\BaseRepository;
 
 class ClientRepositoryEloquent extends BaseRepository implements ClientRepository
 {
+    protected $fieldSearchable = [
+        'name' => 'like'
+    ];
+
     /**
      * Specify Model class name
      *

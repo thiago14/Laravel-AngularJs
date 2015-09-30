@@ -10,9 +10,12 @@
                             <label class="col-md-4 control-label">Cliente</label>
 
                             <div class="col-md-6">
-                                <select name="client_id" class="form-control" ng-model="project.client_id" ng-options="client.id as client.name for client in clients track by project.client_id" required>
-                                    <option value="">Selecione um cliente</option>
-                                </select>
+                                <input type="text" name="client_id" ng-model="project.client_id" placeholder="Selecione um cliente"
+                                       typeahead="client as client.name for client in getClients($viewValue) | limitTo:10"
+                                       typeahead-loading="loadingLocations"
+                                       typeahead-input-formatter="formatName($model)"
+                                       class="form-control" required />
+                                <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
 
                                 <div ng-messages="form.client_id.$error" class="help-block" ng-show="form.client_id.$touched">
                                     <div ng-message="required">Campo Obrigatório</div>

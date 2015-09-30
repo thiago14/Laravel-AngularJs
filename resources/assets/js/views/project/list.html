@@ -8,7 +8,7 @@
                         <tr>
                             <th>ID</th>
                             <th>Nome</th>
-                            <th>Descrição</th>
+                            <th>Cliente</th>
                             <th>Status</th>
                             <th>Progresso</th>
                             <th>Prazo</th>
@@ -23,7 +23,7 @@
                                 <a ng-href="#/project/{{o.id}}/task/new" class="btn btn-xs btn-info"><i class="fa fa-tasks"></i> Tarefa</a>
                                 <a ng-href="#/project/{{o.id}}/member/addMember" class="btn btn-xs btn-info"><i class="fa fa-users"></i> Membros</a>
                             </td>
-                            <td>{{ o.description | limitTo:25}}...</td>
+                            <td>{{ o.client.data.name }}</td>
                             <td>{{ o.status }}</td>
                             <td>{{ o.progress }}</td>
                             <td>{{ o.due_date | dateBr }}</td>
