@@ -1,5 +1,6 @@
 var app = angular.module('app', [
-    'ngRoute', 'angular-oauth2', 'app.controllers', 'app.services', 'app.filters', 'ui.bootstrap.typeahead', 'ui.bootstrap.tpls', 'ui.bootstrap.datepicker'
+    'ngRoute', 'angular-oauth2', 'app.controllers', 'app.services', 'app.filters',
+    'ui.bootstrap.typeahead', 'ui.bootstrap.tpls', 'ui.bootstrap.datepicker', 'ngFileUpload'
 ]);
 
 angular.module('app.controllers', ['ngMessages','angular-oauth2']);
@@ -40,7 +41,7 @@ app.config([
         }).when('/home', {
             templateUrl: 'build/views/home.html',
             controller: 'HomeController'
-        }) // Rotas de Clientes
+        }) // ------------------ Rotas de Clientes ------------------
         .when('/clients', {
             templateUrl: 'build/views/client/list.html',
             controller: 'ClientListController'
@@ -53,7 +54,7 @@ app.config([
         }).when('/client/:id/remove', {
             templateUrl: 'build/views/client/remove.html',
             controller: 'ClientRemoveController'
-        })// Rotas de Projetos
+        })// ------------------ Rotas de Projetos ------------------
         .when('/projects', {
             templateUrl: 'build/views/project/list.html',
             controller: 'ProjectListController'
@@ -66,7 +67,7 @@ app.config([
         }).when('/project/:id/remove', {
             templateUrl: 'build/views/project/remove.html',
             controller: 'ProjectRemoveController'
-        }) // Rotas de Notas
+        }) // ------------------ Rotas de Notas ------------------
         .when('/project/:id/notes', {
             templateUrl: 'build/views/project/note/list.html',
             controller: 'NoteListController'
@@ -79,6 +80,19 @@ app.config([
         }).when('/project/:id/note/:idNote/remove', {
             templateUrl: 'build/views/project/note/remove.html',
             controller: 'NoteRemoveController'
+        }) // ------------------ Rotas de Arquivos ------------------
+        .when('/project/:id/files', {
+            templateUrl: 'build/views/project/file/list.html',
+            controller: 'FileListController'
+        }).when('/project/:id/file/new', {
+            templateUrl: 'build/views/project/file/new.html',
+            controller: 'FileNewController'
+        }).when('/project/:id/file/:idFile/edit', {
+            templateUrl: 'build/views/project/file/edit.html',
+            controller: 'FileEditController'
+        }).when('/project/:id/file/:idFile/remove', {
+            templateUrl: 'build/views/project/file/remove.html',
+            controller: 'FileRemoveController'
         });
 
     OAuthProvider.configure({
@@ -111,7 +125,12 @@ app.run(['$rootScope', '$window', '$location', '$cookies', 'OAuth', function($ro
         //Verifica se o usuário está autenticado
         if (!OAuth.isAuthenticated()) {
             //Guarda a rota que o usuário acessou
-            $rootScope.rotaDepoisLogin = $location.path();
+            if($location.path() == 'login'){
+                $rootScope.rotaDepoisLogin = 'home';
+            }else{
+                $rootScope.rotaDepoisLogin = $location.path();
+            }
+
             //Redireciona para o login quebrando o histórico do browser, ou seja, o login não constará no histórico do browser
                 $location.path('login').replace();
         } else {

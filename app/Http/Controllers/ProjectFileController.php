@@ -3,19 +3,34 @@
 namespace GerenciadorProjetos\Http\Controllers;
 
 use GerenciadorProjetos\Http\Requests;
+use GerenciadorProjetos\Services\ProjectFileServices;
 use GerenciadorProjetos\Services\ProjectServices;
 use Illuminate\Http\Request;
 
 class ProjectFileController extends Controller
 {
     /**
-     * @var Projectservice
+     * @var ProjectFileService
      */
     private $service;
+    /**
+     * @var ProjectServices
+     */
+    private $projectServices;
 
-    public function __construct(ProjectServices $service)
+    public function __construct(ProjectFileServices $service, ProjectServices $projectServices)
     {
         $this->service = $service;
+        $this->projectServices = $projectServices;
+    }
+
+    /**
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function index($id)
+    {
+        return $this->service->all($id);
     }
 
     /**
@@ -27,16 +42,51 @@ class ProjectFileController extends Controller
      */
     public function store($id, Request $request)
     {
-        if ($this->checkPermissions($id) == true) {
+        if ($this->projectServices->checkPermissions($id) == true) {
             $data = $request->all();
             $data['file'] = $request->file('file');
             $data['project_id'] = $id;
-            return $this->service->createFile($data);
+            return $this->service->create($data);
         }
 
         return response()->json(["error" => true, "message" => "Acesso negado!"], 412);
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function download($id,$idFile)
+    {
+        if($this->projectServices->checkPermissions($id) == true){
+            return response()->download($this->service->getFilePath($idFile));
+        }
+        return response()->json(["error" => true, "message" => "Acesso negado!"], 412);
+    }
+
+    /**
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function show($id, $idFile)
+    {
+        if($this->projectServices->checkPermissions($id) == true){
+            return $this->service->show($idFile);
+        }
+        return response()->json(["error" => true, "message" => "Acesso negado!"], 412);
+    }
+    /**
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function update(Request $request, $id)
+    {
+        if($this->projectServices->checkPermissions($id) == true){
+            return $this->service->update($request->all(), $id);
+        }
+        return response()->json(["error" => true, "message" => "Acesso negado!"], 412);
+    }
     /**
      * Remove the specified resource from storage.
      *
@@ -46,34 +96,10 @@ class ProjectFileController extends Controller
      */
     public function destroy($id, $fileId)
     {
-        if ($this->checkPermissions($id) == true) {
-            return $this->service->deleteFile($fileId);
+        if ($this->projectServices->checkPermissions($id) == true) {
+            return $this->service->delete($fileId);
         }
         return response()->json(['error' => true, 'message' => "Acesso negado!"]);
     }
 
-    /**
-     * @param $projectId
-     * @return bool|\Illuminate\Http\JsonResponse
-     */
-    private function isMember($projectId)
-    {
-        $userId = \Authorizer::getResourceOwnerId();
-        return $this->service->isMember($projectId, $userId);
-    }
-
-    private function checkProjectOwner($projectId)
-    {
-        $userId = \Authorizer::getResourceOwnerId();
-        return $this->service->isOwner($projectId, $userId);
-    }
-
-    public function checkPermissions($projectId)
-    {
-        if ($this->checkProjectOwner($projectId) || $this->isMember($projectId)) {
-            return true;
-        }
-
-        return false;
-    }
 }

@@ -3,16 +3,11 @@
 namespace GerenciadorProjetos\Services;
 
 
-use GerenciadorProjetos\Entities\ProjectFile;
 use GerenciadorProjetos\Repositories\ProjectMemberRepository;
 use GerenciadorProjetos\Repositories\ProjectRepository;
-use GerenciadorProjetos\Validators\ProjectFileValidator;
 use GerenciadorProjetos\Validators\ProjectValidator;
 use Illuminate\Contracts\Validation\ValidationException;
 use Prettus\Validator\Exceptions\ValidatorException;
-
-use Illuminate\Contracts\Filesystem\Factory as Storage;
-use Illuminate\Filesystem\Filesystem;
 
 class ProjectServices
 {
@@ -25,30 +20,15 @@ class ProjectServices
      */
     private $validator;
     /**
-     * @var Filesystem
+     * @var ProjectMemberRepository
      */
-    private $filesystem;
-    /**
-     * @var Storage
-     */
-    private $storage;
-    /**
-     * @var ProjectFile
-     */
-    private $projectFile;
-    /**
-     * @var ProjectFileValidator
-     */
-    private $validatorFile;
+    private $repository_members;
 
-    public function __construct(ProjectRepository $repository, ProjectValidator $validator, ProjectFileValidator $validatorFile, Filesystem $filesystem, Storage $storage, ProjectFile $projectFile)
+    public function __construct(ProjectRepository $repository, ProjectValidator $validator, ProjectMemberRepository $repository_members)
     {
         $this->repository = $repository;
         $this->validator = $validator;
-        $this->filesystem = $filesystem;
-        $this->storage = $storage;
-        $this->projectFile = $projectFile;
-        $this->validatorFile = $validatorFile;
+        $this->repository_members = $repository_members;
     }
 
     public function create(array $data)
@@ -60,6 +40,69 @@ class ProjectServices
             return response()->json([
                 "error" => true,
                 "message" => $e->getMessageBag()
+            ], 412);
+        }
+    }
+
+    public function update(array $data, $id)
+    {
+        try {
+            $this->validator->with($data)->passesOrFail();
+            return $this->repository->update($data, $id);
+        } catch (ValidatorException $e) {
+            return response()->json([
+                "error" => true,
+                "message" => $e->getMessageBag()
+            ], 412);
+        }
+    }
+
+    public function show($id)
+    {
+        try {
+            return response()->json($this->repository->with(['client', 'owner', 'members', 'notes', 'tasks'])->find($id));
+        } catch (\Exception $e) {
+            return response()->json([
+                "error" => true,
+                "message" => "Projeto ID: {$id} não encontrado!"
+            ], 412);
+        }
+    }
+
+    public function all($userId)
+    {
+        try {
+            return response()->json($this->repository->with(['client', 'owner', 'members', 'tasks', 'notes'])->findWhere(['owner_id'=> $userId]));
+        } catch (\Exception $e) {
+            return response()->json([
+                "error" => true,
+                "message" => "Erro ao Carregar Projetos.",
+            ], 412);
+        }
+    }
+
+    public function delete($id)
+    {
+        try {
+            return response()->json($this->repository->delete($id));
+        } catch (\Exception $e) {
+            return response()->json([
+                "error" => true,
+                "message" => "Não foi possível deletar o ID: {$id}"
+            ], 412);
+        }
+    }
+
+    public function members($id)
+    {
+        try {
+            $project = $this->repository->skipPresenter()->find($id);
+            $this->repository->skipPresenter(false);
+            return response()->json($project->members);
+        } catch (\Exception $e) {
+            return response()->json([
+                "error" => true,
+                "message" => "Não foi possível carregar os membros"
             ], 412);
         }
     }
@@ -111,73 +154,10 @@ class ProjectServices
         }
     }
 
-    public function update(array $data, $id)
-    {
-        try {
-            $this->validator->with($data)->passesOrFail();
-            return $this->repository->update($data, $id);
-        } catch (ValidatorException $e) {
-            return response()->json([
-                "error" => true,
-                "message" => $e->getMessageBag()
-            ], 412);
-        }
-    }
-
-    public function show($id)
-    {
-        try {
-            return response()->json($this->repository->with(['client', 'owner', 'members', 'notes', 'tasks'])->find($id));
-        } catch (\Exception $e) {
-            return response()->json([
-                "error" => true,
-                "message" => "Projeto ID: {$id} não encontrado!"
-            ], 412);
-        }
-    }
-
-    public function all($userId)
-    {
-        try {
-            return response()->json($this->repository->with(['client', 'owner', 'members', 'tasks', 'notes'])->findWhere(['owner_id'=> $userId]));
-        } catch (\Exception $e) {
-            return response()->json([
-                "error" => true,
-                "message" => "Erro ao Carregar Projetos.",
-                "message_error" => $e->getMessage()
-            ], 412);
-        }
-    }
-
-    public function delete($id)
-    {
-        try {
-            return response()->json($this->repository->delete($id));
-        } catch (\Exception $e) {
-            return response()->json([
-                "error" => true,
-                "message" => "Não foi possível deletar o ID: {$id}"
-            ], 412);
-        }
-    }
-
-    public function members($id)
-    {
-        try {
-            $project = $this->repository->skipPresenter()->find($id);
-            $this->repository->skipPresenter(false);
-            return response()->json($project->members);
-        } catch (\Exception $e) {
-            return response()->json([
-                "error" => true,
-                "message" => "Não foi possível carregar os membros"
-            ], 412);
-        }
-    }
-
     public function isMember($projectId, $userId)
     {
         try{
+            $userId = \Authorizer::getResourceOwnerId();
             if($this->repository->isMember($projectId, $userId) == false){
                 return false;
             }
@@ -195,6 +175,7 @@ class ProjectServices
     public function isOwner($projectId, $userId)
     {
         try{
+            $userId = \Authorizer::getResourceOwnerId();
             if(count($this->repository->isOwner($projectId, $userId))){
                 return true;
             }
@@ -209,36 +190,13 @@ class ProjectServices
         }
     }
 
-    public function createFile(array $data)
+    public function checkPermissions($projectId)
     {
-        try {
-            $this->validatorFile->with($data)->passesOrFail();
-            $data['extension'] = $data['file']->getClientOriginalExtension();
-            $project = $this->repository->skipPresenter()->find($data['project_id']);
-            $projectFile = $project->files()->create($data);
-
-            $this->storage->put($projectFile->id . '.' . $data['extension'], $this->filesystem);
-            return response()->json(['message' => "Arquivo salvo com sucesso!"]);
-        } catch (ValidatorException $e) {
-            return response()->json([
-                "error" => true,
-                "message" => $e->getMessageBag()
-            ], 412);
+        if($this->isOwner($projectId) || $this->isMember($projectId)){
+            return true;
         }
+
+        return false;
     }
 
-    public function deleteFile($fileId)
-    {
-        try{
-            $file = $this->projectFile->find($fileId);
-            if($this->storage->exists($file->id.'.'.$file->extension)){
-                $this->storage->delete($file->id.'.'.$file->extension);
-            }
-            $file->delete();
-
-            return response()->json(['message'=> "Arquivo excluido com sucesso!"]);
-        }catch (\Exception $e){
-            return response()->json(['error' => true ,'message'=> "Erro ao tentar excluir o arquivo."], 412);
-        }
-    }
 }

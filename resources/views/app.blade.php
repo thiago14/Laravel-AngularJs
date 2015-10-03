@@ -90,6 +90,7 @@
     <script src="{{ asset('build/js/vendor/angular-cookies.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('build/js/vendor/query-string.js') }}" type="text/javascript"></script>
     <script src="{{ asset('build/js/vendor/angular-oauth2.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('build/js/vendor/ng-file-upload.min.js') }}" type="text/javascript"></script>
 
     {{--Controllers--}}
     <script src="{{ asset('build/js/app.js') }}" type="text/javascript"></script>

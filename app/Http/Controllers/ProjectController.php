@@ -46,7 +46,7 @@ class ProjectController extends Controller
      */
     public function show($id)
     {
-        if($this->checkPermissions($id) == true){
+        if($this->service->checkPermissions($id) == true){
             return $this->service->show($id);
         }
         return response()->json(["error" => true, "message" => "Acesso negado!"], 412);
@@ -61,7 +61,7 @@ class ProjectController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if($this->checkPermissions($id) == true){
+        if($this->service->checkPermissions($id) == true){
             return $this->service->update($request->all(), $id);
         }
         return response()->json(["error" => true, "message" => "Acesso negado!"], 412);
@@ -75,7 +75,7 @@ class ProjectController extends Controller
      */
     public function destroy($id)
     {
-        if($this->checkPermissions($id) == true){
+        if($this->service->checkPermissions($id) == true){
             return $this->service->delete($id);
         }
         return response()->json(['error'=> true, 'message' => "Acesso negado!"]);
@@ -89,7 +89,7 @@ class ProjectController extends Controller
      */
     public function addMember(Request $request, $id)
     {
-        if($this->checkPermissions($id) == true){
+        if($this->service->checkPermissions($id) == true){
             return $this->service->addMember($request->all(), $id);
         }
         return response()->json(['error'=> true, 'message' => "Acesso negado!"]);
@@ -115,30 +115,5 @@ class ProjectController extends Controller
     public function members($id)
     {
         return $this->service->members($id);
-    }
-
-    /**
-     * @param $projectId
-     * @return bool|\Illuminate\Http\JsonResponse
-     */
-    private function isMember($projectId)
-    {
-        $userId = \Authorizer::getResourceOwnerId();
-        return $this->service->isMember($projectId, $userId);
-    }
-
-    private function checkProjectOwner($projectId)
-    {
-        $userId = \Authorizer::getResourceOwnerId();
-        return $this->service->isOwner($projectId, $userId);
-    }
-
-    public function checkPermissions($projectId)
-    {
-        if($this->checkProjectOwner($projectId) || $this->isMember($projectId)){
-            return true;
-        }
-
-        return false;
     }
 }
