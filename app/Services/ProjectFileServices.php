@@ -7,6 +7,7 @@ use GerenciadorProjetos\Repositories\ProjectFileRepository;
 use GerenciadorProjetos\Validators\ProjectFileValidator;
 use Illuminate\Contracts\Filesystem\Factory as Storage;
 use Illuminate\Filesystem\Filesystem;
+use Prettus\Validator\Contracts\ValidatorInterface;
 use Prettus\Validator\Exceptions\ValidatorException;
 
 class ProjectFileServices
@@ -40,7 +41,7 @@ class ProjectFileServices
     public function all($projectId)
     {
         try {
-            return response()->json($this->repository->findWhere(['project_id'=> $projectId]));
+            return response()->json($this->repository->findWhere(['project_id' => $projectId]));
         } catch (\Exception $e) {
             return response()->json([
                 "error" => true,
@@ -64,11 +65,11 @@ class ProjectFileServices
     public function create(array $data)
     {
         try {
-            $this->validator->with($data)->passesOrFail();
+            $this->validator->with($data)->passesOrFail(ValidatorInterface::RULE_CREATE);
             $data['extension'] = $data['file']->getClientOriginalExtension();
             $projectFile = $this->repository->create($data);
 
-            $this->storage->put($projectFile->id . '.' . $data['extension'], $this->filesystem);
+            $this->storage->put($data['project_id'] . '/' . $projectFile['data']['id'] . '.' . $data['extension'], $this->filesystem->get($data['file']));
 
             return response()->json(['message' => "Arquivo salvo com sucesso!"]);
         } catch (ValidatorException $e) {
@@ -82,7 +83,7 @@ class ProjectFileServices
     public function update(array $data, $id)
     {
         try {
-            $this->validator->with($data)->passesOrFail();
+            $this->validator->with($data)->passesOrFail(ValidatorInterface::RULE_UPDATE);
             return $this->repository->update($data, $id);
         } catch (ValidatorException $e) {
             return response()->json([
@@ -94,29 +95,33 @@ class ProjectFileServices
 
     public function delete($fileId)
     {
-        try{
+        try {
             $file = $this->repository->skipPresenter()->find($fileId);
-            if($this->storage->exists($file->id.'.'.$file->extension)){
-                $this->storage->delete($file->id.'.'.$file->extension);
+            if ($this->storage->exists($file->id . '.' . $file->extension)) {
+                $this->storage->delete($file->id . '.' . $file->extension);
             }
             $file->delete();
 
-            return response()->json(['message'=> "Arquivo excluido com sucesso!"]);
-        }catch (\Exception $e){
-            return response()->json(['error' => true ,'message'=> "Erro ao tentar excluir o arquivo."], 412);
+            return response()->json(['message' => "Arquivo excluido com sucesso!"]);
+        } catch (\Exception $e) {
+            return response()->json(['error' => true, 'message' => "Erro ao tentar excluir o arquivo."], 412);
         }
     }
 
-    public function getFilePath($id){
+    public function getFilePath($id)
+    {
         $projectFile = $this->repository->skipPresenter()->find($id);
-        return $this->getBaseUrl($projectFile);
+        return [
+            'filePath' => $this->getBaseUrl($projectFile),
+            'fileDb' => $projectFile
+        ];
     }
 
     public function getBaseUrl($projectFile)
     {
-        switch($this->storage->getDefaultDriver()){
+        switch ($this->storage->getDefaultDriver()) {
             case 'local':
-                return $this->storage->getDriver()->getAdapter()->getPathPrefix() . '/' . $projectFile->id . '.' . $projectFile->extension;
+                return $this->storage->getDriver()->getAdapter()->getPathPrefix() . $projectFile->project_id . '/' . $projectFile->id . '.' . $projectFile->extension;
         }
     }
 

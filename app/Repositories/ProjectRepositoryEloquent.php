@@ -47,7 +47,6 @@ class ProjectRepositoryEloquent extends BaseRepository implements ProjectReposit
     {
 
         $result = $this->skipPresenter()->findWhere(['id' => $projectId, 'owner_id' => $userId])->first();
-        $this->skipPresenter(FALSE);
 
         return $result;
     }

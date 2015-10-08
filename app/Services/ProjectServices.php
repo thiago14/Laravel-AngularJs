@@ -154,7 +154,7 @@ class ProjectServices
         }
     }
 
-    public function isMember($projectId, $userId)
+    public function isMember($projectId)
     {
         try{
             $userId = \Authorizer::getResourceOwnerId();
@@ -172,7 +172,7 @@ class ProjectServices
         }
     }
 
-    public function isOwner($projectId, $userId)
+    public function isOwner($projectId)
     {
         try{
             $userId = \Authorizer::getResourceOwnerId();

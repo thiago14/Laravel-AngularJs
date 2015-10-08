@@ -54,50 +54,63 @@ class ProjectFileController extends Controller
 
     /**
      * @param $id
+     * @param $idFile
      * @return \Illuminate\Http\JsonResponse
      */
-    public function download($id,$idFile)
+    public function download($id, $idFile)
     {
-        if($this->projectServices->checkPermissions($id) == true){
-            return response()->download($this->service->getFilePath($idFile));
+        if ($this->projectServices->checkPermissions($id) == true) {
+            $file = $this->service->getFilePath($idFile);
+            $fileContent = file_get_contents($file['filePath']);
+            return [
+                'file' => base64_encode($fileContent),
+                'size' => filesize($file['filePath']),
+                'name' => $file['fileDb']['name'],
+                'extension' => $file['fileDb']['extension'],
+                'id' => $file['fileDb']['id']
+            ];
         }
         return response()->json(["error" => true, "message" => "Acesso negado!"], 412);
     }
 
     /**
      * @param $id
+     * @param $idFile
      * @return \Illuminate\Http\JsonResponse
      */
     public function show($id, $idFile)
     {
-        if($this->projectServices->checkPermissions($id) == true){
+        if ($this->projectServices->checkPermissions($id) == true) {
             return $this->service->show($idFile);
         }
         return response()->json(["error" => true, "message" => "Acesso negado!"], 412);
     }
+
     /**
      * @param Request $request
      * @param $id
-     * @return \Illuminate\Http\JsonResponse
+     * @param $idFile
+     * @return \Illuminate\Http\JsonResponse|mixed
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id, $idFile)
     {
-        if($this->projectServices->checkPermissions($id) == true){
-            return $this->service->update($request->all(), $id);
+        if ($this->projectServices->checkPermissions($id) == true) {
+            return $this->service->update($request->all(), $idFile);
         }
         return response()->json(["error" => true, "message" => "Acesso negado!"], 412);
     }
+
     /**
      * Remove the specified resource from storage.
      *
      * @param  int $id
-     * @param  int $fileId
+     * @param  int $idFile
      * @return Response
      */
-    public function destroy($id, $fileId)
+    public function destroy($id, $idFile)
     {
         if ($this->projectServices->checkPermissions($id) == true) {
-            return $this->service->delete($fileId);
+            return $this->service->delete($idFile);
         }
         return response()->json(['error' => true, 'message' => "Acesso negado!"]);
     }

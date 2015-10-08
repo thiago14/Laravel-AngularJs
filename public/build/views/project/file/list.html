@@ -11,10 +11,12 @@
                             <th>Download</th>
                             <th>Ação</th>
                         </tr>
-                        <tr ng-repeat="o in notes">
+                        <tr ng-repeat="o in files">
                             <td>{{ o.name }}</td>
                             <td>{{ o.description | limitTo:20}}...</td>
-                            <td>Download</td>
+                            <td>
+                                <file-download url="" id-project="{{o.project_id}}" id-file="{{o.id}}" filename="{{o.name}}.{{o.extension}}"></file-download>
+                            </td>
                             <td>
                                 <a ng-href="#/project/{{o.project_id}}/file/{{o.id}}/edit" class="btn btn-xs btn-success"><i class="fa fa-edit"></i> Editar</a>
                                 <a ng-href="#/project/{{o.project_id}}/file/{{o.id}}/remove" class="btn btn-xs btn-danger"><i class="fa fa-minus-circle"></i> Excluir</a>
