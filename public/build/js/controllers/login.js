@@ -16,10 +16,7 @@ angular.module('app.controllers')
                 OAuth.getAccessToken($scope.user).then(function () {
                     User.authenticated({}, {}, function(data){
                         $cookies.putObject('user', data);
-                        if($rootScope.rotaDepoisLogin == null){
-                            $rootScope.rotaDepoisLogin = '/home';
-                        }
-                        $location.path($rootScope.rotaDepoisLogin);
+                        $location.path('/home');
                     });
 
                 }, function (data) {
