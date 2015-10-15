@@ -72,7 +72,7 @@ class ProjectServices
     public function all($userId)
     {
         try {
-            return response()->json($this->repository->with(['client', 'owner', 'members', 'tasks', 'notes'])->findWhere(['owner_id'=> $userId]));
+            return response()->json($this->repository->findProjects($userId));
         } catch (\Exception $e) {
             return response()->json([
                 "error" => true,

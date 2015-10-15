@@ -29,15 +29,15 @@ Route::group(['middleware' => 'oauth'], function () {
         Route::resource('project.file', 'ProjectFileController', ['except' => ['create', 'edit']]);
 
         /* Grupo Projeto */
-        Route::group(['prefix' => 'project'], function () {
+        Route::group(['middleware' => 'check.project.permission', 'prefix' => 'project'], function () {
 
             /* Membros */
-            Route::post('{id}/addMember', 'ProjectController@addMember');
-            Route::post('{id}/removeMember', 'ProjectController@removeMember');
-            Route::get('{id}/members', 'ProjectController@members');
+            Route::post('{project}/addMember', 'ProjectController@addMember');
+            Route::post('{project}/removeMember', 'ProjectController@removeMember');
+            Route::get('{project}/members', 'ProjectController@members');
 
             /* Arquivos */
-            Route::get('{id}/file/{idFile}/download', 'ProjectFileController@download');
+            Route::get('{project}/file/{idFile}/download', 'ProjectFileController@download');
     //      Route::resource('project.file', 'ProjectFileController', ['except' => ['create', 'edit','show']]);
     //      Route::post('{id}/file', 'ProjectFileController@store');
     //      Route::put('{id}/file/{fileId}', 'ProjectFileController@update');

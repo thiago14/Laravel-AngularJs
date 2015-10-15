@@ -16,7 +16,10 @@ class ProjectController extends Controller
     public function __construct(ProjectServices $service)
     {
         $this->service = $service;
+        $this->middleware('check.project.owner', ['except' => ['index', 'store', 'show']]);
+        $this->middleware('check.project.permission', ['except' => ['index', 'store', 'update', 'destroy']]);
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -30,7 +33,7 @@ class ProjectController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  Request  $request
+     * @param  Request $request
      * @return Response
      */
     public function store(Request $request)
@@ -41,44 +44,35 @@ class ProjectController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return Response
      */
     public function show($id)
     {
-        if($this->service->checkPermissions($id) == true){
-            return $this->service->show($id);
-        }
-        return response()->json(["error" => true, "message" => "Acesso negado!"], 412);
+        return $this->service->show($id);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  Request  $request
-     * @param  int  $id
+     * @param  Request $request
+     * @param  int $id
      * @return Response
      */
     public function update(Request $request, $id)
     {
-        if($this->service->checkPermissions($id) == true){
-            return $this->service->update($request->all(), $id);
-        }
-        return response()->json(["error" => true, "message" => "Acesso negado!"], 412);
+        return $this->service->update($request->all(), $id);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return Response
      */
     public function destroy($id)
     {
-        if($this->service->checkPermissions($id) == true){
-            return $this->service->delete($id);
-        }
-        return response()->json(['error'=> true, 'message' => "Acesso negado!"]);
+        return $this->service->delete($id);
     }
 
     /**
@@ -89,10 +83,7 @@ class ProjectController extends Controller
      */
     public function addMember(Request $request, $id)
     {
-        if($this->service->checkPermissions($id) == true){
-            return $this->service->addMember($request->all(), $id);
-        }
-        return response()->json(['error'=> true, 'message' => "Acesso negado!"]);
+        return $this->service->addMember($request->all(), $id);
     }
 
     /**
