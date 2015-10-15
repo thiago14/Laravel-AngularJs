@@ -2,7 +2,10 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Listagem de Projetos</div>
+                <div class="panel-heading">
+                    Listagem de Projetos
+                    <a href="#/project/new" class="btn btn-xs btn-primary pull-right">Novo Projeto</a>
+                </div>
                 <div class="panel-body">
                     <table class="table">
                         <tr>
@@ -19,9 +22,9 @@
                             <td>
                                 {{ o.name }}
                                 <br>
-                                <a ng-href="#/project/{{o.id}}/note/new" class="btn btn-xs btn-info"><i class="fa fa-comments"></i> Nota</a>
-                                <a ng-href="#/project/{{o.id}}/task/new" class="btn btn-xs btn-info"><i class="fa fa-tasks"></i> Tarefa</a>
-                                <a ng-href="#/project/{{o.id}}/member/addMember" class="btn btn-xs btn-info"><i class="fa fa-users"></i> Membros</a>
+                                <a ng-href="#/project/{{o.id}}/notes" class="btn btn-xs btn-info"><i class="fa fa-comments"></i> Nota</a>
+                                <a ng-href="#/project/{{o.id}}/tasks" class="btn btn-xs btn-info"><i class="fa fa-tasks"></i> Tarefa</a>
+                                <a ng-href="#/project/{{o.id}}/members" class="btn btn-xs btn-info"><i class="fa fa-users"></i> Membros</a>
                             </td>
                             <td>{{ o.client.data.name }}</td>
                             <td>{{ o.status }}</td>
