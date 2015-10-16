@@ -1,0 +1,22 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="panel panel-default">
+                <div class="panel-heading">Excluir Tarefa</div>
+                <div class="panel-body">
+                    <p>Deseja excluir realmente esta tarefa?</p>
+                    <ul>
+                        <li><strong>ID Projeto:</strong> {{ task.project_id }}</li>
+                        <li><strong>ID Tarefa:</strong> {{ task.id }}</li>
+                        <li><strong>Título:</strong> {{ task.name }}</li>
+                    </ul>
+                    <div class="form-group">
+                        <div class="col-md-6 col-md-offset-4">
+                            <button type="button" class="btn btn-danger" ng-click="remove()">Excluir</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

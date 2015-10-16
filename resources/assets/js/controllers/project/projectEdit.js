@@ -1,10 +1,11 @@
 angular.module('app.controllers')
     .controller('ProjectEditController',
-    ['$scope', '$location', '$routeParams', 'Project', 'Client',
-        function ($scope, $location, $routeParams, Project, Client) {
+    ['$scope', '$location', '$routeParams', 'Project', 'Client','appConfig',
+        function ($scope, $location, $routeParams, Project, Client, appConfig) {
             Project.get({id: $routeParams.id}, function (data) {
                 $scope.project = data;
                 $scope.project.due_date = new Date($scope.project.due_date);
+                $scope.status = appConfig.project.status;
                 Client.get({id: data.client_id}, function (data) {
                     $scope.clientSelected = data;
                 })

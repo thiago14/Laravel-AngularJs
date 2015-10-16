@@ -1,0 +1,33 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Listagem de Tarefas
+                    <a href="#/project/{{project_id}}/task/new" class="btn btn-xs btn-primary pull-right">Nova Tarefa</a>
+                </div>
+                <div class="panel-body">
+                    <table class="table">
+                        <tr>
+                            <th>Nome</th>
+                            <th>Início</th>
+                            <th>Entrega</th>
+                            <th>Status</th>
+                            <th>Ação</th>
+                        </tr>
+                        <tr ng-repeat="o in tasks">
+                            <td>{{ o.name }}</td>
+                            <td>{{ o.start_date | dateBr }}</td>
+                            <td>{{ o.due_date | dateBr }}</td>
+                            <td>{{ o.status }}</td>
+                            <td>
+                                <a ng-href="#/project/{{o.project_id}}/task/{{o.id}}/edit" class="btn btn-xs btn-success"><i class="fa fa-edit"></i> Editar</a>
+                                <a ng-href="#/project/{{o.project_id}}/task/{{o.id}}/remove" class="btn btn-xs btn-danger"><i class="fa fa-minus-circle"></i> Excluir</a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

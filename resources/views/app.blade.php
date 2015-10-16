@@ -112,6 +112,11 @@
     <script src="{{ asset('build/js/controllers/project/note/noteEdit.js') }}" type="text/javascript"></script>
     <script src="{{ asset('build/js/controllers/project/note/noteRemove.js') }}" type="text/javascript"></script>
 
+    <script src="{{ asset('build/js/controllers/project/task/taskList.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('build/js/controllers/project/task/taskNew.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('build/js/controllers/project/task/taskEdit.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('build/js/controllers/project/task/taskRemove.js') }}" type="text/javascript"></script>
+
     <script src="{{ asset('build/js/controllers/project/file/fileList.js') }}" type="text/javascript"></script>
     <script src="{{ asset('build/js/controllers/project/file/fileNew.js') }}" type="text/javascript"></script>
     <script src="{{ asset('build/js/controllers/project/file/fileEdit.js') }}" type="text/javascript"></script>
@@ -128,6 +133,7 @@
     <script src="{{ asset('build/js/services/client.js') }}" type="text/javascript"></script>
     <script src="{{ asset('build/js/services/project.js') }}" type="text/javascript"></script>
     <script src="{{ asset('build/js/services/projectNote.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('build/js/services/projectTask.js') }}" type="text/javascript"></script>
     <script src="{{ asset('build/js/services/projectFile.js') }}" type="text/javascript"></script>
     <script src="{{ asset('build/js/services/user.js') }}" type="text/javascript"></script>
 @else
