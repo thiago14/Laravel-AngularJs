@@ -1,0 +1,49 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Listagem de Membros
+                    <a href="#/project/{{project_id}}/member/new" class="btn btn-xs btn-primary pull-right">Novo Membros</a>
+                </div>
+                <div class="panel-body">
+                    <form class="form-inline" name="form" role="form" method="POST" ng-submit="save()">
+                        <div class="form-group" ng-class="{'has-error': !form.member.$valid && form.member.$touched}">
+                            <label class="col-md-4 control-label">Usuários</label>
+                            <div class="col-md-6">
+                                <input type="text" name="member" ng-model="memberSelected" placeholder="Selecione um usuário"
+                                       typeahead="member as member.name for member in getMembers($viewValue) | limitTo:10"
+                                       typeahead-loading="loadingLocations"
+                                       typeahead-input-formatter="formatName($model)"
+                                       class="form-control" />
+                                <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-6 col-md-offset-4">
+                                <button type="submit" class="btn btn-primary">Salvar</button>
+                            </div>
+                        </div>
+                    </form>
+                    <br>
+                    <table class="table">
+                        <tr>
+                            <th>Nome</th>
+                            <th>E-mail</th>
+                            <th>Ação</th>
+                        </tr>
+                        <tr ng-repeat="o in members">
+                            <td>{{ o.name }}</td>
+                            <td>{{ o.email }}</td>
+                            <td>
+                                <a ng-href="#/project/{{o.project_id}}/member/{{o.id}}/remove" class="btn btn-xs btn-danger"><i class="fa fa-minus-circle"></i> Excluir</a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

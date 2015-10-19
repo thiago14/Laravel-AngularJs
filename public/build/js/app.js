@@ -112,6 +112,13 @@ app.config([
             }).when('/project/:id/task/:idTask/remove', {
                 templateUrl: 'build/views/project/task/remove.html',
                 controller: 'TaskRemoveController'
+            })// ------------------ Rotas de Membros ------------------
+            .when('/project/:id/members', {
+                templateUrl: 'build/views/project/member/list.html',
+                controller: 'MemberListController'
+            }).when('/project/:id/member/:idMember/remove', {
+                templateUrl: 'build/views/project/member/remove.html',
+                controller: 'MemberRemoveController'
             }) // ------------------ Rotas de Arquivos ------------------
             .when('/project/:id/files', {
                 templateUrl: 'build/views/project/file/list.html',
@@ -169,6 +176,7 @@ app.run(['$rootScope', '$window', '$location', '$cookies', 'OAuth',
             //console.log(rejection.data.error);
             $rootScope.error.error = true;
             $rootScope.error.message = rejection.data.error;
+            $rootScope.rotaDepoisLogin = $location.path();
             return $window.location.href = '#/login';
         });
 
@@ -178,12 +186,12 @@ app.run(['$rootScope', '$window', '$location', '$cookies', 'OAuth',
                 //Guarda a rota que o usuário acessou
                 $rootScope.rotaDepoisLogin = $location.path();
                 //Redireciona para o login quebrando o histórico do browser, ou seja, o login não constará no histórico do browser
-                $location.path('/login').replace();
+                //$location.path('/login').replace();
+                OAuth.getRefreshToken();
             } else {
-                $location.path($rootScope.postLogInRoute).replace();
-                //OAuth.getRefreshToken();
                 //Zera o rotaDepoisLogin
-                $rootScope.rotaDepoisLogin = null;
+                $rootScope.rotaDepoisLogin = $location.path();
+                $location.path($rootScope.postLogInRoute).replace();
             }
         });
     }

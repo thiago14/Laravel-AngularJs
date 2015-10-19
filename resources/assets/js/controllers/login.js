@@ -10,12 +10,15 @@ angular.module('app.controllers')
             message: '',
             error: false
         };
-
         $scope.login = function () {
             if ($scope.formLogin.$valid) {
                 OAuth.getAccessToken($scope.user).then(function () {
                     User.authenticated({}, {}, function(data){
                         $cookies.putObject('user', data);
+                        console.log('Login: ' + $rootScope.rotaDepoisLogin);
+                        if($rootScope.rotaDepoisLogin != undefined){
+                            $location.path($rootScope.rotaDepoisLogin);
+                        }
                         $location.path('/home');
                     });
 

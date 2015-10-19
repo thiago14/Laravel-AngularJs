@@ -12,6 +12,7 @@ Route::group(['middleware' => 'oauth'], function () {
 
     /* Usuário */
     Route::get('user/authenticated', ['as' => 'user.authenticated', 'uses' => 'UserController@authenticated']);
+    Route::resource('user', 'UserController', ['except' => ['create', 'edit']]);
 
     /* Clientes */
     Route::resource('client', 'ClientController', ['except' => ['create', 'edit']]);
@@ -28,13 +29,15 @@ Route::group(['middleware' => 'oauth'], function () {
         /* Arquivos */
         Route::resource('project.file', 'ProjectFileController', ['except' => ['create', 'edit']]);
 
+        /* Membros */
+        Route::resource('project.member', 'ProjectMemberController', ['except' => ['create', 'edit', 'update', 'destroy']]);
+
         /* Grupo Projeto */
         Route::group(['middleware' => 'check.project.permission', 'prefix' => 'project'], function () {
-
             /* Membros */
-            Route::post('{project}/addMember', 'ProjectController@addMember');
-            Route::post('{project}/removeMember', 'ProjectController@removeMember');
-            Route::get('{project}/members', 'ProjectController@members');
+//            Route::post('{project}/addMember', 'ProjectController@addMember');
+            Route::post('{project}/member/remove', 'ProjectMemberController@destroy');
+//            Route::get('{project}/members', 'ProjectController@members');
 
             /* Arquivos */
             Route::get('{project}/file/{idFile}/download', 'ProjectFileController@download');

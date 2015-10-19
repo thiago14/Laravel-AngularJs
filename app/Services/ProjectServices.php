@@ -77,6 +77,7 @@ class ProjectServices
             return response()->json([
                 "error" => true,
                 "message" => "Erro ao Carregar Projetos.",
+                'message_box' => $e->getMessage()
             ], 412);
         }
     }

@@ -3,7 +3,7 @@ angular.module('app.controllers')
     ['$scope', '$location','$routeParams', 'Task', 'appConfig', function ($scope, $location, $routeParams, Task, appConfig) {
         $scope.task = new Task();
         $scope.task.project_id = $routeParams.id;
-        $scope.task.status = appConfig.project.status;
+        $scope.status = appConfig.project.status;
 
         $scope.date = [false,false];
 
