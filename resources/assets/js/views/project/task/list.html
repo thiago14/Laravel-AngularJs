@@ -19,7 +19,7 @@
                             <td>{{ o.name }}</td>
                             <td>{{ o.start_date | dateBr }}</td>
                             <td>{{ o.due_date | dateBr }}</td>
-                            <td>{{ o.status }}</td>
+                            <td>{{ status[o.status].label }}</td>
                             <td>
                                 <a ng-href="#/project/{{o.project_id}}/task/{{o.id}}/edit" class="btn btn-xs btn-success"><i class="fa fa-edit"></i> Editar</a>
                                 <a ng-href="#/project/{{o.project_id}}/task/{{o.id}}/remove" class="btn btn-xs btn-danger"><i class="fa fa-minus-circle"></i> Excluir</a>

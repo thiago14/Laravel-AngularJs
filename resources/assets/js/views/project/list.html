@@ -20,14 +20,14 @@
                         <tr ng-repeat="o in projects">
                             <td>{{ o.id }}</td>
                             <td>
-                                {{ o.name }}
+                                {{ o.name | ellipsis:20 }}
                                 <br>
                                 <a ng-href="#/project/{{o.id}}/notes" class="btn btn-xs btn-info"><i class="fa fa-comments"></i> Nota</a>
                                 <a ng-href="#/project/{{o.id}}/tasks" class="btn btn-xs btn-info"><i class="fa fa-tasks"></i> Tarefa</a>
                                 <a ng-href="#/project/{{o.id}}/members" class="btn btn-xs btn-info"><i class="fa fa-users"></i> Membros</a>
                             </td>
                             <td>{{ o.client.data.name }}</td>
-                            <td>{{ o.status }}</td>
+                            <td>{{ status[o.status].label }}</td>
                             <td>{{ o.progress }}</td>
                             <td>{{ o.due_date | dateBr }}</td>
                             <td>

@@ -15,7 +15,7 @@
                         </tr>
                         <tr ng-repeat="o in notes">
                             <td>{{ o.title }}</td>
-                            <td>{{ o.note | limitTo:20}}...</td>
+                            <td>{{ o.note | ellipsis:20 }}</td>
                             <td>
                                 <a ng-href="#/project/{{o.project_id}}/note/{{o.id}}/edit" class="btn btn-xs btn-success"><i class="fa fa-edit"></i> Editar</a>
                                 <a ng-href="#/project/{{o.project_id}}/note/{{o.id}}/remove" class="btn btn-xs btn-danger"><i class="fa fa-minus-circle"></i> Excluir</a>

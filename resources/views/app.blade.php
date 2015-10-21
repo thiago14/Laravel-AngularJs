@@ -91,9 +91,9 @@
     <script src="{{ asset('build/js/vendor/query-string.js') }}" type="text/javascript"></script>
     <script src="{{ asset('build/js/vendor/angular-oauth2.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('build/js/vendor/ng-file-upload.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('build/js/app.js') }}" type="text/javascript"></script>
 
     {{--Controllers--}}
-    <script src="{{ asset('build/js/app.js') }}" type="text/javascript"></script>
     <script src="{{ asset('build/js/controllers/login.js') }}" type="text/javascript"></script>
     <script src="{{ asset('build/js/controllers/home.js') }}" type="text/javascript"></script>
 
@@ -118,7 +118,6 @@
     <script src="{{ asset('build/js/controllers/project/task/taskRemove.js') }}" type="text/javascript"></script>
 
     <script src="{{ asset('build/js/controllers/project/member/memberList.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('build/js/controllers/project/member/memberNew.js') }}" type="text/javascript"></script>
     <script src="{{ asset('build/js/controllers/project/member/memberRemove.js') }}" type="text/javascript"></script>
 
     <script src="{{ asset('build/js/controllers/project/file/fileList.js') }}" type="text/javascript"></script>
@@ -131,6 +130,7 @@
 
     {{--Filters--}}
     <script src="{{ asset('build/js/filters/date-br.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('build/js/filters/ellipsis.js') }}" type="text/javascript"></script>
 
     {{--Services--}}
     <script src="{{ asset('build/js/services/url.js') }}" type="text/javascript"></script>

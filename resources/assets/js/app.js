@@ -13,17 +13,17 @@ app.provider('appConfig', function () {
         baseUrl: 'http://localhost:8000',
         project:{
             status:[
-                {value:1, label: 'Não iniciado'},
-                {value:2, label: 'Iniciado'},
-                {value:3, label: 'Pausado'},
-                {value:4, label: 'Concluído'},
+                {value:0, label: 'Não iniciado'},
+                {value:1, label: 'Iniciado'},
+                {value:2, label: 'Pausado'},
+                {value:3, label: 'Concluído'},
             ]
         },
         task:{
             status: [
-                {value:1, label: 'Incompleta'},
-                {value:2, label: 'Completa'},
-                {value:3, label: 'Pausada'},
+                {value:0, label: 'Incompleta'},
+                {value:1, label: 'Completa'},
+                {value:2, label: 'Pausada'},
             ]
         },
         urls: {
