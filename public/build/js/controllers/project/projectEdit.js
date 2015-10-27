@@ -4,7 +4,8 @@ angular.module('app.controllers')
         function ($scope, $location, $routeParams, Project, Client, appConfig) {
             Project.get({id: $routeParams.id}, function (data) {
                 $scope.project = data;
-                $scope.project.due_date = new Date($scope.project.due_date);
+                var date = $scope.project.due_date.split('-');
+                $scope.project.due_date = new Date(date[0],date[1]-1, date[2]);
                 $scope.status = appConfig.project.status;
                 Client.get({id: data.client_id}, function (data) {
                     $scope.clientSelected = data;
