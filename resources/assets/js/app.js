@@ -57,6 +57,13 @@ app.config([
             .when('/login', {
                 templateUrl: 'build/views/login.html',
                 controller: 'LoginController'
+            }).when('/logout', {
+                resolve: {
+                    logout: ['$location', 'OAuthToken', function($location, OAuthToken){
+                        OAuthToken.removeToken();
+                        return $location.path('login');
+                    }
+                ]}
             }).when('/home', {
                 templateUrl: 'build/views/home.html',
                 controller: 'HomeController'
@@ -160,6 +167,14 @@ app.run(['$rootScope', '$window', '$location', '$cookies', 'OAuth',
                 email: user.email
             }
         }
+        $rootScope.$on('$routeChangeStart', function (event, next, currentRoute) {
+            if(next.$$route.originalPath != '/login'){
+                if (!OAuth.isAuthenticated()) {
+                    $rootScope.rotaDepoisLogin = next.$$route.originalPath;
+                    $location.path('login');
+                }
+            }
+        });
         $rootScope.$on('oauth:error', function(event, rejection){
             $rootScope.error = {
                 message: '',
@@ -176,23 +191,7 @@ app.run(['$rootScope', '$window', '$location', '$cookies', 'OAuth',
             //console.log(rejection.data.error);
             $rootScope.error.error = true;
             $rootScope.error.message = rejection.data.error;
-            $rootScope.rotaDepoisLogin = $location.path();
             return $window.location.href = '#/login';
-        });
-
-        $rootScope.$on('$routeChangeStart', function (event, nextRoute, currentRoute) {
-            if (!OAuth.isAuthenticated()) {
-                //Verifica se o usuário está autenticado
-                //Guarda a rota que o usuário acessou
-                $rootScope.rotaDepoisLogin = $location.path();
-                //Redireciona para o login quebrando o histórico do browser, ou seja, o login não constará no histórico do browser
-                //$location.path('/login').replace();
-                OAuth.getRefreshToken();
-            } else {
-                //Zera o rotaDepoisLogin
-                $rootScope.rotaDepoisLogin = $location.path();
-                $location.path($rootScope.postLogInRoute).replace();
-            }
         });
     }
 ]);
