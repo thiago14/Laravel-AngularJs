@@ -16,7 +16,7 @@
                             <th>Ação</th>
                         </tr>
                         <tr ng-repeat="o in tasks">
-                            <td>{{ o.name }}</td>
+                            <td>{{ o.name | ellipsis:20 }}</td>
                             <td>{{ o.start_date | dateBr }}</td>
                             <td>{{ o.due_date | dateBr }}</td>
                             <td>{{ status[o.status].label }}</td>

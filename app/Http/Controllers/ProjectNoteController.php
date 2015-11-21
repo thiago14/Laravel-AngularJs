@@ -16,6 +16,8 @@ class ProjectNoteController extends Controller
     public function __construct(ProjectNoteServices $service)
     {
         $this->service = $service;
+        $this->middleware('check.project.owner', ['except' => ['index', 'show']]);
+        $this->middleware('check.project.permission', ['except' => ['store', 'update', 'destroy']]);
     }
     /**
      * Display a listing of the resource.

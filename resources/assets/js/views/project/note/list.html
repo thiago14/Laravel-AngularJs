@@ -14,7 +14,7 @@
                             <th>Ação</th>
                         </tr>
                         <tr ng-repeat="o in notes">
-                            <td>{{ o.title }}</td>
+                            <td>{{ o.title | ellipsis:20 }}</td>
                             <td>{{ o.note | ellipsis:20 }}</td>
                             <td>
                                 <a ng-href="#/project/{{o.project_id}}/note/{{o.id}}/edit" class="btn btn-xs btn-success"><i class="fa fa-edit"></i> Editar</a>

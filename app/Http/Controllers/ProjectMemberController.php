@@ -16,6 +16,8 @@ class ProjectMemberController extends Controller
     public function __construct(ProjectMemberServices $service)
     {
         $this->service = $service;
+        $this->middleware('check.project.owner', ['except' => ['index']]);
+        $this->middleware('check.project.permission', ['except' => ['index', 'store', 'update', 'destroy']]);
     }
 
     /**
