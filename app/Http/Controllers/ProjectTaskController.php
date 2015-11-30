@@ -16,6 +16,8 @@ class ProjectTaskController extends Controller
     public function __construct(ProjectTaskServices $service)
     {
         $this->service = $service;
+        $this->middleware('check.project.owner', ['except' => ['index']]);
+        $this->middleware('check.project.permission', ['except' => ['index', 'store', 'update', 'destroy']]);
     }
     /**
      * Display a listing of the resource.
