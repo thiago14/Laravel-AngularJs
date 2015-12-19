@@ -91,10 +91,12 @@
     <script src="{{ asset('build/js/vendor/query-string.js') }}" type="text/javascript"></script>
     <script src="{{ asset('build/js/vendor/angular-oauth2.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('build/js/vendor/ng-file-upload.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('build/js/vendor/http-auth-interceptor.js') }}" type="text/javascript"></script>
     <script src="{{ asset('build/js/app.js') }}" type="text/javascript"></script>
 
     {{--Controllers--}}
-    <script src="{{ asset('build/js/controllers/login.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('build/js/controllers/auth/login.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('build/js/controllers/auth/loginModal.js') }}" type="text/javascript"></script>
     <script src="{{ asset('build/js/controllers/home.js') }}" type="text/javascript"></script>
 
     <script src="{{ asset('build/js/controllers/client/clientList.js') }}" type="text/javascript"></script>
@@ -127,6 +129,7 @@
 
     {{--Directives--}}
     <script src="{{ asset('build/js/directives/fileDownload.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('build/js/directives/formLogin.js') }}" type="text/javascript"></script>
 
     {{--Filters--}}
     <script src="{{ asset('build/js/filters/date-br.js') }}" type="text/javascript"></script>
@@ -141,6 +144,7 @@
     <script src="{{ asset('build/js/services/projectMember.js') }}" type="text/javascript"></script>
     <script src="{{ asset('build/js/services/projectFile.js') }}" type="text/javascript"></script>
     <script src="{{ asset('build/js/services/user.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('build/js/services/oauthFixINterceptor.js') }}" type="text/javascript"></script>
 @else
     <script src="{{ elixir('js/all.js') }}" type="text/javascript"></script>
 @endif

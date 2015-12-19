@@ -1,6 +1,6 @@
 var app = angular.module('app', [
     'ngRoute', 'angular-oauth2', 'app.controllers', 'app.services', 'app.filters', 'app.directives',
-    'ui.bootstrap.typeahead', 'ui.bootstrap.tpls', 'ui.bootstrap.datepicker', 'ngFileUpload'
+    'ui.bootstrap.typeahead', 'ui.bootstrap.tpls', 'ui.bootstrap.datepicker','ui.bootstrap.modal', 'ngFileUpload', 'http-auth-interceptor'
 ]);
 
 angular.module('app.controllers', ['ngMessages', 'angular-oauth2']);
@@ -27,7 +27,20 @@ app.provider('appConfig', function () {
             ]
         },
         urls: {
-            projectFile: '/project/{{id}}/file/{{idFile}}'
+            projectFile: '/project/{{id}}/file/{{idFile}}',
+        },
+        utils: {
+            transformResponse: function (data, headers) {
+                var headersGetter = headers();
+                if (headersGetter['content-type'] == 'application/json' || headersGetter['content-type'] == 'application/json') {
+                    var dataJson = JSON.parse(data);
+                    if (dataJson.hasOwnProperty('data')) {
+                        dataJson = dataJson.data;
+                    }
+                    return dataJson
+                }
+                return data;
+            }
         }
     };
 
@@ -42,17 +55,9 @@ app.provider('appConfig', function () {
 app.config([
     '$routeProvider', '$httpProvider', 'OAuthProvider', 'OAuthTokenProvider', 'appConfigProvider',
     function ($routeProvider, $httpProvider, OAuthProvider, OAuthTokenProvider, appConfigProvider) {
-        $httpProvider.defaults.transformResponse = function (data, headers) {
-            var headersGetter = headers();
-            if (headersGetter['content-type'] == 'application/json' || headersGetter['content-type'] == 'application/json') {
-                var dataJson = JSON.parse(data);
-                if (dataJson.hasOwnProperty('data')) {
-                    dataJson = dataJson.data;
-                }
-                return dataJson
-            }
-            return data;
-        };
+        $httpProvider.defaults.transformResponse = appConfigProvider.config.utils.transformResponse;
+        $httpProvider.interceptors.splice(0, 2);
+        $httpProvider.interceptors.push('oauthFixInterceptor');
         $routeProvider
             .when('/login', {
                 templateUrl: 'build/views/login.html',
@@ -156,8 +161,8 @@ app.config([
         });
     }]);
 
-app.run(['$rootScope', '$window', '$location', '$cookies', 'OAuth',
-    function ($rootScope, $window, $location, $cookies, OAuth) {
+app.run(['$rootScope', '$location', '$cookies', '$http', '$modal', 'httpBuffer', 'OAuth',
+    function ($rootScope, $location, $cookies, $http, $modal, httpBuffer, OAuth) {
 
         if (OAuth.isAuthenticated()) {
             var user = $cookies.getObject('user');
@@ -167,7 +172,7 @@ app.run(['$rootScope', '$window', '$location', '$cookies', 'OAuth',
                 email: user.email
             }
         }
-        $rootScope.$on('$routeChangeStart', function (event, next, currentRoute) {
+        $rootScope.$on('$routeChangeStart', function (event, next, current) {
             if(next.$$route.originalPath != '/login'){
                 if (!OAuth.isAuthenticated()) {
                     $rootScope.rotaDepoisLogin = next.$$route.originalPath;
@@ -175,23 +180,46 @@ app.run(['$rootScope', '$window', '$location', '$cookies', 'OAuth',
                 }
             }
         });
-        $rootScope.$on('oauth:error', function(event, rejection){
+        $rootScope.$on('oauth:error', function(event, data){
             $rootScope.error = {
                 message: '',
                 error: false
             };
 
-            if('invalid_grant' === rejection.data.error){
+            if('invalid_grant' === data.rejection.data.error){
+                httpBuffer.append(data.rejection.config, data.defered);
+                if(!$rootScope.loginModal){
+                    var modalInstance = $modal.open({
+                        templateUrl: 'build/views/templates/loginModal.html',
+                        controller: 'LoginModalController'
+                    });
+                    $rootScope.loginModal = true;
+                }
                 return;
             }
 
-            if('invalid_token' === rejection.data.error){
+            if('access_denied' === data.rejection.data.error){
+                httpBuffer.append(data.rejection.config, data.defered);
+                if(!$rootScope.isRefreshingToken){
+                    $rootScope.isRefreshingToken = true;
+                    return OAuth.getRefreshToken().then(function (response) {
+                        $rootScope.isRefreshingToken = false;
+                        return $http(data.rejection.config).then(function(response){
+                            return data.deferred.resolve(response);
+                        });
+                    })
+                }else{
+                    return $http(data.rejection.config).then(function (response) {
+                        return data.deferred.resolve(response);
+                    })
+                }
                 return OAuth.getRefreshToken();
             }
-            //console.log(rejection.data.error);
+
             $rootScope.error.error = true;
-            $rootScope.error.message = rejection.data.error;
-            return $window.location.href = '#/login';
+            $rootScope.error.message = data.rejection.data.error;
+
+            // return $location.path('login');
         });
     }
 ]);
