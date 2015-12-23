@@ -35,8 +35,8 @@ class ProjectRepositoryEloquent extends BaseRepository implements ProjectReposit
     {
         $project = $this->skipPresenter()->find($projectId);
         $this->skipPresenter(FALSE);
-        foreach($project->members as $member){
-            if($member->id == $userId){
+        foreach ($project->members as $member) {
+            if ($member->id == $userId) {
                 return true;
             }
         }
@@ -51,17 +51,17 @@ class ProjectRepositoryEloquent extends BaseRepository implements ProjectReposit
         return $result;
     }
 
-    public function findPRojects($userId)
+    public function findProjects($userId, $limit = null, $columns = array('*'))
     {
-        return $this->scopeQuery(function($query) use($userId){
+        return $this->scopeQuery(function ($query) use ($userId) {
             return $query->select('projects.*')
-                ->leftJoin('project_members', function ($join) use($userId){
-                    $join->on('projects.id', '=' ,'project_members.project_id')
+                ->leftJoin('project_members', function ($join) use ($userId) {
+                    $join->on('projects.id', '=', 'project_members.project_id')
                         ->where('project_members.user_id', '=', $userId);
                 })
                 ->orWhere('projects.owner_id', '=', $userId)
                 ->orWhereRaw('projects.id = project_members.project_id');
-        })->all();
+        })->paginate($limit, $columns);
     }
 
     public function presenter()

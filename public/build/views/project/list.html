@@ -17,7 +17,7 @@
                             <th>Prazo</th>
                             <th>Ação</th>
                         </tr>
-                        <tr ng-repeat="o in projects">
+                        <tr dir-paginate="o in projects | itemsPerPage: 10" total-items="totalProjects" current-page="pagination.current">
                             <td>{{ o.id }}</td>
                             <td>
                                 {{ o.name | ellipsis:20 }}
@@ -36,6 +36,7 @@
                             </td>
                         </tr>
                     </table>
+                    <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"></dir-pagination-controls>
                 </div>
             </div>
         </div>

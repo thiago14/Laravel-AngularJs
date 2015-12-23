@@ -3,6 +3,9 @@ angular.module('app.services')
         return $resource(appConfig.baseUrl + '/project/:id', {id: '@id'},{
             update: {
                 method: 'PUT'
+            },
+            query: {
+                isArray:false
             }
         });
     }]);

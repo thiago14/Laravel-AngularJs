@@ -1,5 +1,5 @@
 var app = angular.module('app', [
-    'ngRoute', 'angular-oauth2', 'app.controllers', 'app.services', 'app.filters', 'app.directives',
+    'ngRoute', 'angular-oauth2', 'app.controllers', 'app.services', 'app.filters', 'app.directives', 'angularUtils.directives.dirPagination',
     'ui.bootstrap.typeahead', 'ui.bootstrap.tpls', 'ui.bootstrap.datepicker','ui.bootstrap.modal', 'ngFileUpload', 'http-auth-interceptor'
 ]);
 
@@ -34,7 +34,7 @@ app.provider('appConfig', function () {
                 var headersGetter = headers();
                 if (headersGetter['content-type'] == 'application/json' || headersGetter['content-type'] == 'application/json') {
                     var dataJson = JSON.parse(data);
-                    if (dataJson.hasOwnProperty('data')) {
+                    if (dataJson.hasOwnProperty('data') && Object.keys(dataJson).length == 1) {
                         dataJson = dataJson.data;
                     }
                     return dataJson
@@ -187,14 +187,6 @@ app.run(['$rootScope', '$location', '$cookies', '$http', '$modal', 'httpBuffer',
             };
 
             if('invalid_grant' === data.rejection.data.error){
-                httpBuffer.append(data.rejection.config, data.defered);
-                if(!$rootScope.loginModal){
-                    var modalInstance = $modal.open({
-                        templateUrl: 'build/views/templates/loginModal.html',
-                        controller: 'LoginModalController'
-                    });
-                    $rootScope.loginModal = true;
-                }
                 return;
             }
 
@@ -218,7 +210,13 @@ app.run(['$rootScope', '$location', '$cookies', '$http', '$modal', 'httpBuffer',
 
             $rootScope.error.error = true;
             $rootScope.error.message = data.rejection.data.error;
-
+            if(!$rootScope.loginModal){
+                var modalInstance = $modal.open({
+                    templateUrl: 'build/views/templates/loginModal.html',
+                    controller: 'LoginModalController'
+                });
+                $rootScope.loginModal = true;
+            }
             // return $location.path('login');
         });
     }

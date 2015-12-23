@@ -23,11 +23,12 @@ class ProjectController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return $this->service->all(\Authorizer::getResourceOwnerId());
+        return $this->service->all(\Authorizer::getResourceOwnerId(), $request->query->get('limit'));
     }
 
     /**
