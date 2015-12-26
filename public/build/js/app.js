@@ -65,8 +65,9 @@ app.config([
                 controller: 'LoginController'
             }).when('/logout', {
                 resolve: {
-                    logout: ['$location', 'OAuthToken', function($location, OAuthToken){
+                    logout: ['$rootScope','$location', 'OAuthToken', function($rootScope, $location, OAuthToken){
                         OAuthToken.removeToken();
+                        $rootScope.showMenu = false;
                         return $location.path('login');
                     }
                 ]}

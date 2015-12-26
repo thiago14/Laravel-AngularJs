@@ -4,7 +4,6 @@ angular.module('app.controllers')
 
             if (OAuth.isAuthenticated()) {
                 $rootScope.user = $cookies.getObject('user');
-                $scope.showMenu = true;
             }
         }
     ]);
