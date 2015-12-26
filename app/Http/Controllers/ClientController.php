@@ -17,14 +17,17 @@ class ClientController extends Controller
     {
         $this->service = $service;
     }
+
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return $this->service->all();
+        $limit = $request->query->get('limit', 15);
+        return $this->service->all($limit);
     }
 
     /**

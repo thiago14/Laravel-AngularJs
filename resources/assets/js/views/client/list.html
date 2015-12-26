@@ -1,33 +1,103 @@
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    Listagem de clientes
-                    <a href="#/client/new" class="btn btn-xs btn-primary pull-right">Novo Cliente</a>
-                </div>
-                <div class="panel-body">
-                    <table class="table">
-                        <tr>
-                            <th>Nome</th>
-                            <th>Responsável</th>
-                            <th>E-mail</th>
-                            <th>Telefone</th>
-                            <th>Ação</th>
-                        </tr>
-                        <tr ng-repeat="o in clients">
-                            <td>{{ o.name }}</td>
-                            <td>{{ o.responsible }}</td>
-                            <td>{{ o.email }}</td>
-                            <td>{{ o.phone }}</td>
-                            <td>
-                                <a ng-href="#/client/{{o.id}}/edit" class="btn btn-xs btn-success"><i class="fa fa-edit"></i> Editar</a>
-                                <a ng-href="#/client/{{o.id}}/remove" class="btn btn-xs btn-danger"><i class="fa fa-minus-circle"></i> Excluir</a>
-                            </td>
-                        </tr>
-                    </table>
+<section class="main">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="boxed-manager">
+                    <div class="boxed-manager-menu">
+                        <ul class="boxed-manager-menu-nav">
+                            <li class="boxed-manager-menu-nav-header">
+                                <h3 class="h4">
+                                    Clientes
+                                    <div class="btn-group pull-right">
+                                        <label class="select-styled select-styled-default select-styled-sm">
+                                            <select ng-options="item as item.label for item in letters | orderBy: 'label'" ng-model="filterLetter"></select>
+                                        </label>
+                                        <a ng-href="#/client/new" class="btn btn-default btn-sm">
+                                            <i class="fa fa-plus"></i>
+                                        </a>
+                                    </div>
+                                </h3>
+                            </li>
+                            <li class="boxed-manager-menu-nav-item" ng-repeat="o in clients">
+                                <a ng-click="showClient(o)" ng-class="{actived: activeSidebar(o)}">
+                                    <header>
+                                        <h4 class="h4 text-boulder">{{ o.name }}</h4>
+                                        <small class="text-upper text-silver">{{ o.email }}</small>
+                                    </header>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="boxed-manager-main boxed-manager-main-xlg">
+                        <div class="boxed-manager-main-header">
+                            <h4 class="h4">
+                                Dados do cliente
+                                <div class="btn-group pull-right">
+                                    <a ng-href="#/client/{{ client.id }}/edit" class="btn btn-default btn-xs" title="Editar">
+                                        <i class="fa fa-pencil"></i>
+                                    </a>
+                                    <a ng-href="#/client/{{ client.id }}/remove" class="btn btn-danger btn-xs"
+                                       title="Apagar">
+                                        <i class="fa fa-trash"></i>
+                                    </a>
+                                </div>
+                            </h4>
+                        </div>
+                        <div class="boxed-manager-main-body">
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <p>
+                                        <i class="icon-inline flaticon-gps36"></i>{{ client.address }}
+                                    </p>
+                                    <p>
+                                        <i class="icon-inline fa fa-envelope-o"></i> {{ client.email }}
+                                    </p>
+
+                                </div>
+                                <div class="col-xs-6">
+                                    <p>
+                                        <i class="icon-inline fa fa-user"></i> {{ client.responsible }}
+                                    </p>
+                                    <p>
+                                        <i class="icon-inline flaticon-telephone60"></i> {{ client.phone }}
+                                    </p>
+                                </div>
+                                <div class="col-xs-12">
+                                    <p>
+                                        <i class="icon-inline fa fa-comment"></i> {{ client.obs }}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <br/>
+
+                            <div class="boxed-manager-main-body-fluid">
+                                <ul class="list-styled list-styled-alt">
+                                    <li class="list-styled-header list-styled-header-lg text-upper text-center">
+                                        <h4 class="h4">Projetos</h4>
+                                    </li>
+                                </ul>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Nome</th>
+                                            <th>Data de entrega</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="p in client.projects.data">
+                                            <td>{{ p.name }}</td>
+                                            <td>{{ p.due_date | dateBr }}</td>
+                                            <td>{{ p.status }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</section>

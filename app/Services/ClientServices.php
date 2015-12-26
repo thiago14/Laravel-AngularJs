@@ -59,10 +59,10 @@ class ClientServices
         }
     }
 
-    public function all()
+    public function all($limit)
     {
         try{
-            return response()->json($this->repository->all());
+            return response()->json($this->repository->paginate($limit));
         } catch(\Exception $e) {
             return response()->json([
                 "error" => true,

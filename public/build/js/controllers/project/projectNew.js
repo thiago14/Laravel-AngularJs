@@ -1,10 +1,10 @@
 angular.module('app.controllers')
     .controller('ProjectNewController',
-    ['$scope', '$location', '$routeParams','$filter', 'Project', 'Client', 'appConfig',
-        function ($scope, $location, $routeParams, $filter, Project, Client, appConfig) {
+    ['$rootScope', '$scope', '$location', '$routeParams','$filter', 'Project', 'Client', 'appConfig',
+        function ($rootScope, $scope, $location, $routeParams, $filter, Project, Client, appConfig) {
         $scope.project = new Project();
         $scope.project.progress = 0;
-        $scope.project.owner_id = $scope.user.id;
+        $scope.project.owner_id = $rootScope.user.id;
         $scope.status = appConfig.project.status;
 
         $scope.now = new Date();

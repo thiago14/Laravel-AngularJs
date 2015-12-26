@@ -6,10 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Gerenciador de Projetos</title>
     @if(Config::get('app.debug'))
-        <link rel="stylesheet" href="{{ asset('build/css/app.css') }}"/>
-        <link rel="stylesheet" href="{{ asset('build/css/components.css') }}"/>
-        <link rel="stylesheet" href="{{ asset('build/css/flaticon.css') }}"/>
         <link rel="stylesheet" href="{{ asset('build/css/font-awesome.css') }}"/>
+        <link rel="stylesheet" href="{{ asset('build/css/flaticon.css') }}"/>
+        <link rel="stylesheet" href="{{ asset('build/css/components.css') }}"/>
+        <link rel="stylesheet" href="{{ asset('build/css/app.css') }}"/>
     @else
         <link rel="stylesheet" href="{{ elixir('css/all.css') }}"/>
         @endif
@@ -25,56 +25,7 @@
         <![endif]-->
 </head>
 <body>
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                    data-target="#bs-example-navbar-collapse-1">
-                <span class="sr-only">Toggle Navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#">Laravel</a>
-        </div>
-
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-                <li><a href="{{ url('/#/home') }}">Home</a></li>
-                <li class="dropdown">
-                    <a href="{{ url('/#/clients') }}" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                       aria-haspopup="true" aria-expanded="false">Clientes<span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="{{ url('/#/clients') }}">Listar Clientes</a></li>
-                        <li><a href="{{ url('/#/client/new') }}">Novo Cliente</a></li>
-                    </ul>
-                </li>
-                <li class="dropdown">
-                    <a href="{{ url('/#/project') }}" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                       aria-haspopup="true" aria-expanded="false">Projetos<span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="{{ url('/#/projects') }}">Listar Projetos</a></li>
-                        <li><a href="{{ url('/#/project/new') }}">Novo Projeto</a></li>
-                    </ul>
-                </li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right" ng-if="user.name == ''">
-                <li><a href="{{ url('/#/login') }}">Login</a></li>
-                <li><a href="{{ url('/#/register') }}">Register</a></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right" ng-if="user.name != ''">
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                       aria-expanded="false" ng-model="user.name">@{{user.name}}<span class="caret"></span></a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a href="{{ url('/#/logout') }}">Logout</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
-
+<div ng-include="'build/views/templates/menu.html'"></div>
 <div ng-view></div>
 
 @if(Config::get('app.debug'))
@@ -99,6 +50,7 @@
     <script src="{{ asset('build/js/controllers/auth/login.js') }}" type="text/javascript"></script>
     <script src="{{ asset('build/js/controllers/auth/loginModal.js') }}" type="text/javascript"></script>
     <script src="{{ asset('build/js/controllers/home.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('build/js/controllers/navbar.js') }}" type="text/javascript"></script>
 
     <script src="{{ asset('build/js/controllers/client/clientList.js') }}" type="text/javascript"></script>
     <script src="{{ asset('build/js/controllers/client/clientNew.js') }}" type="text/javascript"></script>
