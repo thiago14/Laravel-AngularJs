@@ -13,8 +13,9 @@ angular.module('app.services')
                 isArray: false
             },
             getClientByLetter: {
-                url: appConfig.baseUrl + '/client/searchLetters',
-                method: 'GET'
+                url: appConfig.baseUrl + '/client/byLetter',
+                method: 'POST',
+                isArray: true
             }
         });
     }]);

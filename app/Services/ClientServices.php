@@ -101,4 +101,17 @@ class ClientServices
         }
     }
 
+    public function findClientByLetter($letter)
+    {
+        try{
+            $clients = $this->repository->findWhere([['name', 'LIKE', $letter. '%']]);
+            return response()->json($clients);
+        } catch(\Exception $e) {
+            return response()->json([
+                "error" => true,
+                "message" => utf8_encode("Erro ao Carregar Clientes.")
+            ],412);
+        }
+    }
+
 }

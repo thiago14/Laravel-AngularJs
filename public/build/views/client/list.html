@@ -10,7 +10,9 @@
                                     Clientes
                                     <div class="btn-group pull-right">
                                         <label class="select-styled select-styled-default select-styled-sm">
-                                            <select ng-options="item as item.label for item in letters | orderBy: 'label'" ng-model="filterLetter"></select>
+                                            <select ng-options="item.label for item in letters" ng-model="filterLetter" ng-change="filterClient()">
+                                                <option value="none"> </option>
+                                            </select>
                                         </label>
                                         <a ng-href="#/client/new" class="btn btn-default btn-sm">
                                             <i class="fa fa-plus"></i>

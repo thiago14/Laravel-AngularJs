@@ -9,24 +9,39 @@ angular.module('app.controllers')
             $scope.client = $scope.clients[0];
             }
         );
+        $scope.filterLetter = [{id: '', label: 'Todos'}];
         Client.getLetters({}, function(response){
             $scope.letters = _optionArray(response);
         });
 
-        $scope.showClient = function (client) {
-            $scope.client = client;
-        };
         $scope.activeSidebar = function (client){
             if($scope.client.id == client.id)
                 return true;
         };
 
+        $scope.filterClient = function(){
+            Client.getClientByLetter({
+                    letter: $scope.filterLetter.id
+                },function(response){
+                    console.log(response);
+                    $scope.clients = response;
+                    $scope.client = $scope.clients[0];
+                }
+            );
+        };
+
+        $scope.showClient = function (client) {
+            $scope.client = client;
+        };
+
         function _optionArray(array){
-            var options = [];
+            var options = [{id: '', label: 'Todos'}];
             angular.forEach(array.meta, function(option){
                 options.push({id: option, label: option});
             });
             return options;
         }
+
+
 
     }]);

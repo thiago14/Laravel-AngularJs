@@ -79,4 +79,9 @@ class ClientController extends Controller
     {
         return $this->service->getLetters();
     }
+
+    public function postClientByLetter(Request $request)
+    {
+        return $this->service->findClientByLetter($request->get('letter'));
+    }
 }

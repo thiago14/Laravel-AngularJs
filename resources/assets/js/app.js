@@ -185,8 +185,8 @@ app.config([
         });
     }]);
 
-app.run(['$rootScope', '$location', '$cookies', '$http', '$modal', 'httpBuffer', 'OAuth',
-    function ($rootScope, $location, $cookies, $http, $modal, httpBuffer, OAuth) {
+app.run(['$rootScope', '$location', '$cookies', '$http', '$modal', '$window', 'httpBuffer', 'OAuth',
+    function ($rootScope, $location, $cookies, $http, $modal, $window, httpBuffer, OAuth) {
 
         $rootScope.$on('$routeChangeStart', function (event, next, current) {
             if(next.$$route.originalPath != '/login'){
@@ -198,6 +198,10 @@ app.run(['$rootScope', '$location', '$cookies', '$http', '$modal', 'httpBuffer',
                 }
             }
         });
+
+        $rootScope.goBack = function(){
+            $window.history.back();
+        };
 
         $rootScope.$on('$routeChangeSuccess', function(event, current){
             $rootScope.pageTitle = current.$$route.title;

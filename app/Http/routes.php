@@ -16,6 +16,7 @@ Route::group(['middleware' => 'oauth'], function () {
 
     /* Clientes */
     Route::get('client/searchLetters', 'ClientController@getLetters');
+    Route::post('client/byLetter', 'ClientController@postClientByLetter');
     Route::resource('client', 'ClientController', ['except' => ['create', 'edit']]);
 
     /* Projetos */
