@@ -15,7 +15,6 @@ angular.module('app.controllers')
                     OAuth.getAccessToken($scope.user).then(function () {
                         User.authenticated({}, {}, function (data) {
                             $cookies.putObject('user', data);
-                            $rootScope.showMenu = true;
                             if ($scope.rotaDepoisLogin) {
                                 return $location.path($scope.rotaDepoisLogin);
                             }

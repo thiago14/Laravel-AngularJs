@@ -6,6 +6,15 @@ angular.module('app.services')
             },
             query: {
                 isArray: false
+            },
+            getLetters: {
+                url: appConfig.baseUrl + '/client/searchLetters',
+                method: 'GET',
+                isArray: false
+            },
+            getClientByLetter: {
+                url: appConfig.baseUrl + '/client/searchLetters',
+                method: 'GET'
             }
         });
     }]);

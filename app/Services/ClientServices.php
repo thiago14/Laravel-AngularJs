@@ -37,6 +37,15 @@ class ClientServices
         }
     }
 
+    public function show($id)
+    {
+        try{
+            return response()->json($this->repository->find($id));
+        } catch(\Exception $e) {
+            return ["error" => true, "message" => utf8_encode("Cliente ID: {$id} não encontrado!")];
+        }
+    }
+
     public function update(array $data, $id)
     {
         try {
@@ -50,12 +59,15 @@ class ClientServices
         }
     }
 
-    public function show($id)
+    public function delete($id)
     {
         try{
-            return response()->json($this->repository->find($id));
+            return response()->json($this->repository->delete($id));
         } catch(\Exception $e) {
-            return ["error" => true, "message" => utf8_encode("Cliente ID: {$id} não encontrado!")];
+            return response()->json([
+                "error" => true,
+                "message" => utf8_encode("Não foi possível deletar o ID: {$id}")
+            ], 412);
         }
     }
 
@@ -71,15 +83,21 @@ class ClientServices
         }
     }
 
-    public function delete($id)
+    public function getLetters()
     {
         try{
-            return response()->json($this->repository->delete($id));
+            $clients = $this->repository->scopeQuery(function($query){
+                return $query->orderBy('name');
+            })->all();
+            foreach($clients['data'] as $key => $client){
+                $letters[] = substr($client['name'],0,1);
+            }
+            return response()->json(['meta' => array_unique($letters)]);
         } catch(\Exception $e) {
             return response()->json([
                 "error" => true,
-                "message" => utf8_encode("Não foi possível deletar o ID: {$id}")
-            ], 412);
+                "message" => utf8_encode("Erro ao Carregar Clientes.")
+            ],412);
         }
     }
 

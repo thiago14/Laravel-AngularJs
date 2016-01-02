@@ -193,6 +193,8 @@ app.run(['$rootScope', '$location', '$cookies', '$http', '$modal', 'httpBuffer',
                 if (!OAuth.isAuthenticated()) {
                     $rootScope.rotaDepoisLogin = next.$$route.originalPath;
                     $location.path('login');
+                }else{
+                    $rootScope.showMenu = true;
                 }
             }
         });

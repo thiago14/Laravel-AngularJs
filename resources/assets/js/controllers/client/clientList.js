@@ -6,11 +6,12 @@ angular.module('app.controllers')
             limit: 8
             },function(response){
                 $scope.clients = response.data;
-                $scope.letters =_putLetter();
+            $scope.client = $scope.clients[0];
             }
         );
-        $scope.client = {};
-        $scope.letters = [];
+        Client.getLetters({}, function(response){
+            $scope.letters = _optionArray(response);
+        });
 
         $scope.showClient = function (client) {
             $scope.client = client;
@@ -20,25 +21,12 @@ angular.module('app.controllers')
                 return true;
         };
 
-        function _putLetter(){
-            var letters = [];
-            angular.forEach($scope.clients, function(cli){
-                letters.push(cli.name.substr(0,1));
-            });
-            letters = _unique_letter(letters);
-            return _optionArray(letters);
-        }
-
         function _optionArray(array){
-            return array.map(function(el){
-                return {id: el, label: el};
+            var options = [];
+            angular.forEach(array.meta, function(option){
+                options.push({id: option, label: option});
             });
-        }
-
-        function _unique_letter(array){
-            return array.filter(function(el, index, arr) {
-                return index == arr.indexOf(el);
-            });
+            return options;
         }
 
     }]);

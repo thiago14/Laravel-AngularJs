@@ -74,4 +74,9 @@ class ClientController extends Controller
     {
         return $this->service->delete($id);
     }
+
+    public function getLetters()
+    {
+        return $this->service->getLetters();
+    }
 }

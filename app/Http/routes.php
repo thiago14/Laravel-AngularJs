@@ -15,6 +15,7 @@ Route::group(['middleware' => 'oauth'], function () {
     Route::resource('user', 'UserController', ['except' => ['create', 'edit']]);
 
     /* Clientes */
+    Route::get('client/searchLetters', 'ClientController@getLetters');
     Route::resource('client', 'ClientController', ['except' => ['create', 'edit']]);
 
     /* Projetos */
