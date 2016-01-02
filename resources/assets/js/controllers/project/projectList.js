@@ -3,15 +3,30 @@ angular.module('app.controllers')
 
         $scope.status = appConfig.project.status;
         $scope.totalProjects = 0;
-        $scope.projectsPerPage = 10;
+        $scope.projectsPerPage = 8;
         _getResultsPage(1);
 
         $scope.pagination = {
             current: 1
         };
+        $scope.tab = 'detalhes';
+        console.log();
+        $scope.activeSidebar = function (project){
+            if($scope.project.id == project.id)
+                return true;
+        };
+
+        $scope.activeTab = function (tab){
+            if($scope.tab == tab)
+                return true;
+        };
 
         $scope.pageChanged = function(newPage) {
             _getResultsPage(newPage);
+        };
+
+        $scope.showProject = function (project) {
+            $scope.project = project;
         };
 
         function _getResultsPage(pageNumber) {
@@ -20,6 +35,7 @@ angular.module('app.controllers')
                 limit: $scope.projectsPerPage
             }, function(response){
                 $scope.projects = response.data;
+                $scope.project = $scope.projects[0];
                 $scope.totalProjects = response.meta.pagination.total;
             });
         }

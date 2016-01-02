@@ -18,7 +18,7 @@ angular.module('app.controllers')
             $scope.save = function () {
                 if ($scope.form.$valid) {
                     Task.update({id: $scope.task.project_id, idTask: $routeParams.idTask}, $scope.task, function () {
-                        $location.path('/project/' + $routeParams.id + '/tasks');
+                        $location.path('/projects');
                     });
                 }
             }

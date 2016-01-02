@@ -1,7 +1,7 @@
 var app = angular.module('app', [
     'ngRoute', 'angular-oauth2', 'app.controllers', 'app.services', 'app.filters', 'app.directives',
     'angularUtils.directives.dirPagination', 'ngFileUpload', 'http-auth-interceptor', 'mgcrea.ngStrap.navbar', 'ngAnimate',
-    'ui.bootstrap.typeahead', 'ui.bootstrap.tpls', 'ui.bootstrap.datepicker','ui.bootstrap.modal', 'ui.bootstrap.dropdown'
+    'ui.bootstrap.typeahead', 'ui.bootstrap.tpls', 'ui.bootstrap.datepicker','ui.bootstrap.modal', 'ui.bootstrap.dropdown', 'ui.bootstrap.tabs'
 ]);
 
 angular.module('app.controllers', ['ngMessages', 'angular-oauth2']);
@@ -14,10 +14,11 @@ app.provider('appConfig', function () {
         baseUrl: 'http://localhost:8000',
         project:{
             status:[
-                {value:0, label: 'Não iniciado'},
-                {value:1, label: 'Iniciado'},
-                {value:2, label: 'Pausado'},
-                {value:3, label: 'Concluído'},
+                {value:0, label: 'Não iniciado', class: 'text-muted'},
+                {value:1, label: 'Iniciado', class: 'text-info'},
+                {value:2, label: 'Pausado', class: 'text-warning'},
+                {value:3, label: 'Concluído', class: 'text-success'},
+                {value:4, label: 'Atrasado', class: 'text-danger'},
             ]
         },
         task:{
