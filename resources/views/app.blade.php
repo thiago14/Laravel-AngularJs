@@ -27,7 +27,15 @@
 <body>
 <div ng-include="'build/views/templates/menu.html'"></div>
 <div ng-view></div>
-
+<footer class="footer-global">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="text-center">&copy; Project Manager - 2015</div>
+            </div>
+        </div>
+    </div>
+</footer>
 @if(Config::get('app.debug'))
     <script src="{{ asset('build/js/vendor/jquery.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('build/js/vendor/bootstrap.min.js') }}" type="text/javascript"></script>

@@ -144,7 +144,11 @@ app.config([
                 controller: 'TaskRemoveController',
                 title: 'Remover Tarefa'
             })// ------------------ Rotas de Membros ------------------
-            .when('/project/:id/members', {
+            /*.when('/projects/member', {
+                templateUrl: 'build/views/project/member/list.html',
+                controller: 'MemberListController',
+                title: 'Membros'
+            })*/.when('/project/:id/members', {
                 templateUrl: 'build/views/project/member/list.html',
                 controller: 'MemberListController',
                 title: 'Membros'

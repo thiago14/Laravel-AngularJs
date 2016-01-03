@@ -23,7 +23,6 @@ angular.module('app.controllers')
             Client.getClientByLetter({
                     letter: $scope.filterLetter.id
                 },function(response){
-                    console.log(response);
                     $scope.clients = response;
                     $scope.client = $scope.clients[0];
                 }

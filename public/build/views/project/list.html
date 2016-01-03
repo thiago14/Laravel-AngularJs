@@ -10,7 +10,7 @@
                                     Projetos
 
                                     <div class="btn-group pull-right">
-                                        <a ng-href="" class="btn btn-primary btn-sm text-upper">
+                                        <a ng-href="" class="btn btn-primary btn-sm text-upper" ng-click="allProject()">
                                             <small>Ver todos</small>
                                         </a>
                                         <a ng-href="#/project/new" class="btn btn-default btn-sm">
@@ -19,7 +19,7 @@
                                     </div>
                                 </h3>
                             </li>
-                            <li class="boxed-manager-menu-nav-item" ng-repeat="o in projects">
+                            <li class="boxed-manager-menu-nav-item" dir-paginate="o in projects | itemsPerPage: 10" total-items="totalProjects" current-page="pagination.current">
                                 <a ng-click="showProject(o)" ng-class="{actived: activeSidebar(o)}">
                                     <header>
                                         <h4 class="h4 text-boulder">{{ o.name | ellipsis:20 }}</h4>
@@ -32,6 +32,7 @@
                                 </a>
                             </li>
                         </ul>
+                        <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"></dir-pagination-controls>
                     </div>
                     <div class="boxed-manager-main arrow">
                         <div class="boxed-manager-main-header">
@@ -74,11 +75,14 @@
                                 <div role="tabpanel" ng-class="{'active' : activeTab('tarefas')}" class="tab-pane" id="tarefas">
                                     <a ng-href="#/project/{{project.id}}/tasks/new" class="btn btn-xs btn-primary">+ Nova tarefa</a>
                                     <div class="task-list">
+                                        <br>
                                         <ul class="task-list-body">
                                             <li ng-repeat="t in project.tasks.data">
                                                 <label>{{ t.name }}</label>
-                                                <a ng-href="#/project/{{project.id}}/task/{{t.id}}/remove" class="btn btn-xs btn-danger pull-right"><i class="fa fa-minus-circle"></i> Excluir</a>
-                                                <a ng-href="#/project/{{project.id}}/task/{{t.id}}/edit" class="btn btn-xs btn-success pull-right"><i class="fa fa-edit"></i> Editar</a>
+                                                <div class="btn-group pull-right">
+                                                    <a ng-href="#/project/{{project.id}}/task/{{t.id}}/edit" class="btn btn-default btn-xs" title="Editar"><i class="fa fa-pencil"></i></a>
+                                                    <a ng-href="#/project/{{project.id}}/task/{{t.id}}/remove" class="btn btn-danger btn-xs" title="Excluir"><i class="fa fa-trash"></i></a>
+                                                </div>
                                             </li>
                                         </ul>
                                     </div>
@@ -86,6 +90,7 @@
                                 <div role="tabpanel" ng-class="{'active' : activeTab('arquivos')}" class="tab-pane" id="arquivos">
                                     <a ng-href="#/project/{{project.id}}/file/new" class="btn btn-xs btn-primary">+ Novo arquivo</a>
                                     <div class="files-list-blocks">
+                                        <br>
                                         <ul class="list-styled">
                                             <li ng-repeat="f in project.files.data" class="media">
                                                 <div class="media-left">
@@ -100,64 +105,20 @@
                                     </div>
                                 </div>
                                 <div role="tabpanel" ng-class="{'active' : activeTab('anotacoes')}" class="tab-pane" id="anotacoes">
+                                    <a ng-href="#/project/{{project.id}}/note/new" class="btn btn-xs btn-primary">+ Nova anotação</a>
                                     <div class="notes-list">
-                                        <div class="notes-list-item note-type-status-changed">
+                                        <br>
+                                        <div class="notes-list-item note-type-message" ng-repeat="n in project.notes.data">
                                             <a ng-href="" class="avatar avatar-xs">
                                                 <img src="build/images/avatar.png" alt=""/>
                                             </a>
                                             <div class="notes-list-body">
                                                 <h6>
-                                                    Status change on a project
+                                                    {{n.title}}
                                                     <span class="time">3 minutes ago</span>
                                                 </h6>
                                                 <p class="notes-list-body-content">
-                                                    The status on <strong>Sample Project</strong> change to <strong>Overdue</strong>
-                                                </p>
-                                            </div>
-                                        </div> <!-- /notes-list-item -->
-                                        <div class="notes-list-item note-type-task-completed">
-                                            <a ng-href="" class="avatar avatar-xs">
-                                                <img src="build/images/avatar.png" alt=""/>
-                                            </a>
-                                            <div class="notes-list-body">
-                                                <h6>
-                                                    <span class="user">Sample Admin</span> completed a task
-                                                    <span class="time">2 years ago</span>
-                                                </h6>
-                                                <p class="notes-list-body-content">
-                                                    <input type="checkbox" name="" id="" disabled="disabled" checked="checked" />
-                                                    Design the new landing page
-                                                </p>
-                                            </div>
-                                        </div> <!-- /notes-list-item -->
-                                        <div class="notes-list-item note-type-attachement">
-                                            <a ng-href="" class="avatar avatar-xs">
-                                                <img src="build/images/avatar.png" alt=""/>
-                                            </a>
-                                            <div class="notes-list-body">
-                                                <h6>
-                                                    <span class="user">Sample Admin</span> upload a file
-                                                    <span class="time">2 years ago</span>
-                                                </h6>
-                                                <p class="notes-list-body-content">
-                                                    <a ng-href="">
-                                                        <i class="fa fa-paperclip"></i> preview.jpg
-                                                    </a>
-                                                </p>
-                                            </div>
-                                        </div> <!-- /notes-list-item -->
-                                        <div class="notes-list-item note-type-message">
-                                            <a ng-href="" class="avatar avatar-xs">
-                                                <img src="build/images/avatar.png" alt=""/>
-                                            </a>
-                                            <div class="notes-list-body">
-                                                <h6>
-                                                    <span class="user">Sample Admin</span> posted a message on a project
-                                                    (<a ng-href="">Sample Project</a>)
-                                                    <span class="time">2 years ago</span>
-                                                </h6>
-                                                <p class="notes-list-body-content">
-                                                    Hi. John asked me to look at the changes. Everythins looks greate!
+                                                    {{ n.note}}
                                                 </p>
                                             </div>
                                         </div> <!-- /notes-list-item -->

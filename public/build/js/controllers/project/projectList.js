@@ -10,7 +10,6 @@ angular.module('app.controllers')
             current: 1
         };
         $scope.tab = 'detalhes';
-        console.log();
         $scope.activeSidebar = function (project){
             if($scope.project.id == project.id)
                 return true;
@@ -21,17 +20,39 @@ angular.module('app.controllers')
                 return true;
         };
 
+        $scope.allProject = function(){
+            $scope.all = true;
+            _getAllResultsPage(1);
+        };
+
         $scope.pageChanged = function(newPage) {
-            _getResultsPage(newPage);
+            if($scope.all)
+            {
+                _getAllResultsPage(newPage);
+            }else{
+                _getResultsPage(newPage);
+            }
         };
 
         $scope.showProject = function (project) {
             $scope.project = project;
         };
 
+        function _getAllResultsPage(pageNumber) {
+            Project.query({
+                page: pageNumber,
+                limit: $scope.projectsPerPage
+            }, function(response){
+                $scope.projects = response.data;
+                $scope.project = $scope.projects[0];
+                $scope.totalProjects = response.meta.pagination.total;
+            });
+        }
+
         function _getResultsPage(pageNumber) {
             Project.query({
                 page: pageNumber,
+                owner: 1,
                 limit: $scope.projectsPerPage
             }, function(response){
                 $scope.projects = response.data;

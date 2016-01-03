@@ -69,10 +69,10 @@ class ProjectServices
         }
     }
 
-    public function all($userId, $limit)
+    public function all($userId, $params)
     {
         try {
-            return response()->json($this->repository->findProjects($userId, $limit));
+            return response()->json($this->repository->findProjects($userId, $params->get('limit'), null, $params));
         } catch (\Exception $e) {
             return response()->json([
                 "error" => true,

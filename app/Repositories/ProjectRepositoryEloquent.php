@@ -51,8 +51,23 @@ class ProjectRepositoryEloquent extends BaseRepository implements ProjectReposit
         return $result;
     }
 
-    public function findProjects($userId, $limit = null, $columns = array('*'))
+    public function findProjects($userId, $limit = null, $columns = array('*'), $params)
     {
+        if($params->get('owner')){
+            return $this->scopeQuery(function ($query) use ($userId) {
+                return $query->select('projects.*')
+                    ->orWhere('projects.owner_id', '=', $userId);
+            })->paginate($limit, $columns);
+        }elseif($params->get('member')){
+            return $this->scopeQuery(function ($query) use ($userId) {
+                return $query->select('projects.*')
+                    ->leftJoin('project_members', function ($join) use ($userId) {
+                        $join->on('projects.id', '=', 'project_members.project_id')
+                            ->where('project_members.user_id', '=', $userId);
+                    })
+                    ->orWhereRaw('projects.id = project_members.project_id');
+            })->paginate($limit, $columns);
+        }
         return $this->scopeQuery(function ($query) use ($userId) {
             return $query->select('projects.*')
                 ->leftJoin('project_members', function ($join) use ($userId) {

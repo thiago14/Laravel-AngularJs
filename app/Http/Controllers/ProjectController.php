@@ -28,7 +28,7 @@ class ProjectController extends Controller
      */
     public function index(Request $request)
     {
-        return $this->service->all(\Authorizer::getResourceOwnerId(), $request->query->get('limit'));
+        return $this->service->all(\Authorizer::getResourceOwnerId(), $request);
     }
 
     /**
