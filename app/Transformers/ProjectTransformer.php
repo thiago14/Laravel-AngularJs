@@ -23,7 +23,8 @@ class ProjectTransformer extends TransformerAbstract
             'due_date' => $project->due_date,
             'owner' => ($project->owner_id == \Authorizer::getResourceOwnerId())? true : false,
             'tasks_count' => $project->tasks->count(),
-            'tasks_opened' => $this->openedTasks($project)
+            'tasks_opened' => $this->openedTasks($project),
+            'progress_estimate' => $this->progressEstimate($project->due_date)
         ];
     }
 
@@ -66,5 +67,24 @@ class ProjectTransformer extends TransformerAbstract
             }
         }
         return $count;
+    }
+
+    protected function progressEstimate($due_date)
+    {
+        $d2 = strtotime($due_date);
+        $d1 = strtotime(date('Y-m-d'));
+
+        $diferenca = round(floor(($d2 - $d1) / (60 * 60 * 24)));
+        $estimate = round(100 / $diferenca);
+
+        if($estimate < 0){
+            return 100;
+        }else{
+            return $estimate;
+        }
+        /*
+         * due_date == 100
+         * today    ==  x
+        */
     }
 }

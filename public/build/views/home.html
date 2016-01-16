@@ -58,7 +58,7 @@
                                     <li class="clearfix">
                                         Progresso esperado:
 
-                                        <div class="radial-progress radial-progress-xs radial-progress-warning progresso-inline pull-right" data-progress="100">
+                                        <div class="radial-progress radial-progress-xs radial-progress-warning progresso-inline pull-right" data-progress="{{ p.progress_estimate }}">
                                             <div class="circle">
                                                 <div class="mask full">
                                                     <div class="fill"></div>
@@ -71,7 +71,7 @@
                                             </div>
                                             <div class="inset">
                                                 <div class="percentage">
-                                                    <div class="numbers">100%</div>
+                                                    <div class="numbers">{{ p.progress_estimate }}%</div>
                                                 </div>
                                             </div>
                                         </div>
