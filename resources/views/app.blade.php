@@ -94,6 +94,7 @@
 
     {{--Filters--}}
     <script src="{{ asset('build/js/filters/date-br.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('build/js/filters/dateDiff.js') }}" type="text/javascript"></script>
     <script src="{{ asset('build/js/filters/ellipsis.js') }}" type="text/javascript"></script>
 
     {{--Services--}}

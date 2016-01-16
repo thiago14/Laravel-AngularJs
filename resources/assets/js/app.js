@@ -74,7 +74,8 @@ app.config([
                 ]}
             }).when('/home', {
                 templateUrl: 'build/views/home.html',
-                controller: 'HomeController'
+                controller: 'HomeController',
+                title: 'Painel'
             }) // ------------------ Rotas de Clientes ------------------
             .when('/clients', {
                 templateUrl: 'build/views/client/list.html',
