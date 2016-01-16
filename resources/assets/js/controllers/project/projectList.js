@@ -4,6 +4,7 @@ angular.module('app.controllers')
         $scope.status = appConfig.project.status;
         $scope.totalProjects = 0;
         $scope.projectsPerPage = 8;
+        $scope.urlImage = 'build/images/icons/ico-';
         _getResultsPage(1);
 
         $scope.pagination = {

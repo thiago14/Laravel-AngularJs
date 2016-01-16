@@ -80,6 +80,7 @@
     <script src="{{ asset('build/js/controllers/project/task/taskEdit.js') }}" type="text/javascript"></script>
     <script src="{{ asset('build/js/controllers/project/task/taskRemove.js') }}" type="text/javascript"></script>
 
+    <script src="{{ asset('build/js/controllers/project/member/memberDashboard.js') }}" type="text/javascript"></script>
     <script src="{{ asset('build/js/controllers/project/member/memberList.js') }}" type="text/javascript"></script>
     <script src="{{ asset('build/js/controllers/project/member/memberRemove.js') }}" type="text/javascript"></script>
 

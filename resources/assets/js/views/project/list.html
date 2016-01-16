@@ -89,12 +89,12 @@
                                 </div>
                                 <div role="tabpanel" ng-class="{'active' : activeTab('arquivos')}" class="tab-pane" id="arquivos">
                                     <a ng-href="#/project/{{project.id}}/file/new" class="btn btn-xs btn-primary">+ Novo arquivo</a>
-                                    <div class="files-list-blocks">
+                                    <div class="files-list-blocks" ng-if="project.files.data.length > 0">
                                         <br>
                                         <ul class="list-styled">
                                             <li ng-repeat="f in project.files.data" class="media">
                                                 <div class="media-left">
-                                                    <img src="build/images/icons/ico-{{f.extension}}.png" alt="" width="50px" /><br>
+                                                    <img ng-src="{{urlImage}}{{f.extension}}.png" alt="" width="50px" /><br>
                                                 </div>
                                                 <div class="media-body">
                                                     <label>{{f.name}}</label><br>

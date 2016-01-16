@@ -1,5 +1,5 @@
 angular.module('app.controllers')
-    .controller('ProjectListController', ['$scope', 'Project', 'appConfig', function ($scope, Project, appConfig) {
+    .controller('MemberDashboardController', ['$scope', 'Project', 'appConfig', function ($scope, Project, appConfig) {
 
         $scope.status = appConfig.project.status;
         $scope.totalProjects = 0;
@@ -53,7 +53,7 @@ angular.module('app.controllers')
         function _getResultsPage(pageNumber) {
             Project.query({
                 page: pageNumber,
-                owner: 1,
+                member: 1,
                 limit: $scope.projectsPerPage
             }, function(response){
                 $scope.projects = response.data;
