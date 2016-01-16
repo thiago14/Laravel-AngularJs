@@ -1,7 +1,7 @@
 angular.module('app.controllers')
     .controller('ProjectEditController',
-    ['$scope', '$location', '$routeParams', 'Project', 'Client','appConfig',
-        function ($scope, $location, $routeParams, Project, Client, appConfig) {
+    ['$scope', '$location', '$routeParams', '$window', 'Project', 'Client','appConfig',
+        function ($scope, $location, $routeParams, $window, Project, Client, appConfig) {
             Project.get({id: $routeParams.id}, function (data) {
                 $scope.project = data;
                 var date = $scope.project.due_date.split('-');
@@ -18,6 +18,10 @@ angular.module('app.controllers')
                     opened: false
                 }
             };
+            $scope.error = {
+                message: '',
+                error: false
+            };
 
             $scope.open = function($event){
                 $scope.due_date.status.opened = true;
@@ -26,8 +30,14 @@ angular.module('app.controllers')
             $scope.save = function () {
                 if ($scope.form.$valid) {
                     $scope.project.client_id = $scope.clientSelected.id;
-                    Project.update({id: $scope.project.id}, $scope.project, function () {
-                        $location.path('/projects');
+                    Project.update({id: $scope.project.id}, $scope.project, function (response) {
+                        if(!response.error)
+                        {
+                            $window.history.back()
+                        }else {
+                            $scope.error.error = true;
+                            $scope.error.message = response.message;
+                        }
                     });
                 }
             };

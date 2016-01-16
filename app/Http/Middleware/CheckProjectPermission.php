@@ -27,7 +27,10 @@ class CheckProjectPermission
     {
         $projectId = $request->route('project');
         if($this->services->checkPermissions($projectId) == false){
-            return ['error' => 'Você não tem acessar este projeto!'];
+            return response()->json([
+                "error" => true,
+                "message" => 'Você não tem acessar este projeto!'
+            ]);
         }
         return $next($request);
     }

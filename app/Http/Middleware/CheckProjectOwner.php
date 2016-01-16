@@ -28,7 +28,10 @@ class CheckProjectOwner
     {
         $projectId = $request->route('project');
         if($this->services->isOwner($projectId) == false){
-            return ['error' => 'Acesso Negado!'];
+            return response()->json([
+                "error" => true,
+                "message" => 'Acesso negado!.'
+            ]);
         }
         return $next($request);
     }
