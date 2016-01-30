@@ -22,8 +22,8 @@ angular.module('app.controllers')
         };
 
         $scope.allProject = function(){
-            $scope.all = true;
-            _getAllResultsPage(1);
+            $scope.all = !$scope.all;
+            $scope.pageChanged(1);
         };
 
         $scope.pageChanged = function(newPage) {

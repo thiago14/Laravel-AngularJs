@@ -56,7 +56,8 @@ class ProjectRepositoryEloquent extends BaseRepository implements ProjectReposit
         if($params->get('owner')){
             return $this->scopeQuery(function ($query) use ($userId) {
                 return $query->select('projects.*')
-                    ->orWhere('projects.owner_id', '=', $userId);
+                    ->orWhere('projects.owner_id', '=', $userId)
+                    ->orderby('created_at', 'desc');
             })->paginate($limit, $columns);
         }elseif($params->get('member')){
             return $this->scopeQuery(function ($query) use ($userId) {
@@ -65,7 +66,8 @@ class ProjectRepositoryEloquent extends BaseRepository implements ProjectReposit
                         $join->on('projects.id', '=', 'project_members.project_id')
                             ->where('project_members.user_id', '=', $userId);
                     })
-                    ->orWhereRaw('projects.id = project_members.project_id');
+                    ->orWhereRaw('projects.id = project_members.project_id')
+                    ->orderby('created_at', 'desc');
             })->paginate($limit, $columns);
         }
         return $this->scopeQuery(function ($query) use ($userId) {
@@ -75,7 +77,8 @@ class ProjectRepositoryEloquent extends BaseRepository implements ProjectReposit
                         ->where('project_members.user_id', '=', $userId);
                 })
                 ->orWhere('projects.owner_id', '=', $userId)
-                ->orWhereRaw('projects.id = project_members.project_id');
+                ->orWhereRaw('projects.id = project_members.project_id')
+                ->orderby('created_at', 'desc');
         })->paginate($limit, $columns);
     }
 

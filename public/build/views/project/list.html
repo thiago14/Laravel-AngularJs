@@ -10,8 +10,11 @@
                                     Projetos
 
                                     <div class="btn-group pull-right">
-                                        <a ng-href="" class="btn btn-primary btn-sm text-upper" ng-click="allProject()">
+                                        <a ng-href="" class="btn btn-primary btn-sm text-upper" ng-if="!all" ng-click="allProject()">
                                             <small>Ver todos</small>
+                                        </a>
+                                        <a ng-href="" class="btn btn-primary btn-sm text-upper" ng-if="all" ng-click="allProject()">
+                                            <small>Apenas meus</small>
                                         </a>
                                         <a ng-href="#/project/new" class="btn btn-default btn-sm">
                                             <i class="fa fa-plus"></i>
@@ -19,7 +22,7 @@
                                     </div>
                                 </h3>
                             </li>
-                            <li class="boxed-manager-menu-nav-item" dir-paginate="o in projects | itemsPerPage: 10" total-items="totalProjects" current-page="pagination.current">
+                            <li class="boxed-manager-menu-nav-item" dir-paginate="o in projects | itemsPerPage: 8" total-items="totalProjects" current-page="pagination.current">
                                 <a ng-click="showProject(o)" ng-class="{actived: activeSidebar(o)}">
                                     <header>
                                         <h4 class="h4 text-boulder">{{ o.name | ellipsis:20 }}</h4>
@@ -54,7 +57,7 @@
                                 <button type="button" ng-click="tab = 'detalhes'" role="tab" ng-class="{'active' : activeTab('detalhes')}" class="btn btn-default">
                                     Detalhes
                                 </button>
-                                <button type="button" ng-click="tab = 'tarefas'" role="tab" ng-class="{'active' : activeTab('tarefas')}"" class="btn btn-default">
+                                <button type="button" ng-click="tab = 'tarefas'" role="tab" ng-class="{'active' : activeTab('tarefas')}" class="btn btn-default">
                                     Tarefas
                                 </button>
                                 <button type="button" ng-click="tab = 'arquivos'" role="tab" ng-class="{'active' : activeTab('arquivos')}" class="btn btn-default">
@@ -73,7 +76,7 @@
                                     <p>{{project.description}}</p>
                                 </div>
                                 <div role="tabpanel" ng-class="{'active' : activeTab('tarefas')}" class="tab-pane" id="tarefas">
-                                    <a ng-href="#/project/{{project.id}}/tasks/new" class="btn btn-xs btn-primary">+ Nova tarefa</a>
+                                    <a ng-href="#/project/{{project.id}}/task/new" class="btn btn-xs btn-primary">+ Nova tarefa</a>
                                     <div class="task-list">
                                         <br>
                                         <ul class="task-list-body">

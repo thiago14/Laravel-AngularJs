@@ -2,6 +2,7 @@ angular.module('app.controllers')
     .controller('ProjectNewController',
     ['$rootScope', '$scope', '$location', '$routeParams','$filter', 'Project', 'Client', 'appConfig',
         function ($rootScope, $scope, $location, $routeParams, $filter, Project, Client, appConfig) {
+        $scope.clients;
         $scope.project = new Project();
         $scope.project.progress = 0;
         $scope.project.owner_id = $rootScope.user.id;
@@ -21,7 +22,7 @@ angular.module('app.controllers')
         $scope.save = function () {
             if ($scope.form.$valid) {
                 $scope.project.client_id = $scope.clientSelected.id;
-                $scope.due_date = $filter('date')($scope.due_date,'yyy-MM-dd');
+                $scope.project.due_date = $filter('date')($scope.project.due_date,'yyyy-MM-dd');
                 $scope.project.$save().then(function () {
                     $location.path('/projects');
                 });
@@ -36,9 +37,12 @@ angular.module('app.controllers')
         };
 
         $scope.getClients = function (name) {
-            return Client.query({
-                search: name,
-            }).$promise;
 
+            Client.query({
+                search: name
+            }, function(response){
+                $scope.clients = response.data;
+            });
+            return $scope.clients;
         };
     }]);

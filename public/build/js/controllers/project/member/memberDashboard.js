@@ -21,11 +21,6 @@ angular.module('app.controllers')
                 return true;
         };
 
-        $scope.allProject = function(){
-            $scope.all = true;
-            _getAllResultsPage(1);
-        };
-
         $scope.pageChanged = function(newPage) {
             if($scope.all)
             {
@@ -38,17 +33,6 @@ angular.module('app.controllers')
         $scope.showProject = function (project) {
             $scope.project = project;
         };
-
-        function _getAllResultsPage(pageNumber) {
-            Project.query({
-                page: pageNumber,
-                limit: $scope.projectsPerPage
-            }, function(response){
-                $scope.projects = response.data;
-                $scope.project = $scope.projects[0];
-                $scope.totalProjects = response.meta.pagination.total;
-            });
-        }
 
         function _getResultsPage(pageNumber) {
             Project.query({
