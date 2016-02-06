@@ -40,7 +40,4 @@ angular.module('app.controllers')
             });
             return options;
         }
-
-
-
     }]);

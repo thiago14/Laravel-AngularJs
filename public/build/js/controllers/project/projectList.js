@@ -1,5 +1,5 @@
 angular.module('app.controllers')
-    .controller('ProjectListController', ['$scope', 'Project', 'appConfig', function ($scope, Project, appConfig) {
+    .controller('ProjectListController', ['$scope', 'Project', 'Member', 'User', 'appConfig', function ($scope, Project, Member, User, appConfig) {
 
         $scope.status = appConfig.project.status;
         $scope.totalProjects = 0;
@@ -61,4 +61,32 @@ angular.module('app.controllers')
                 $scope.totalProjects = response.meta.pagination.total;
             });
         }
+
+        $scope.member = new Member();
+
+        $scope.save = function () {
+            if ($scope.form.$valid) {
+                $scope.member.member_ids = $scope.memberSelected.id;
+                $scope.member.project_id = $scope.project.id;
+                $scope.member.$save({id: $scope.project.id}).then(function () {
+                    $scope.project.members.data = Member.query({id: $scope.project.id});
+                    $scope.member = new Member();
+                    $scope.memberSelected = '';
+                });
+            }
+        };
+
+        $scope.formatName = function (model) {
+            if (model) {
+                return model.name;
+            }
+            return ''
+        };
+
+        $scope.getMembers = function (name) {
+            return User.query({
+                search: name,
+            }).$promise;
+
+        };
     }]);

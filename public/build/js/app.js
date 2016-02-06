@@ -61,7 +61,9 @@ app.config([
         $httpProvider.interceptors.splice(0, 2);
         $httpProvider.interceptors.push('oauthFixInterceptor');
         $routeProvider
-            .when('/login', {
+            .when('/', {
+                redirectTo: '/login'
+            }).when('/login', {
                 templateUrl: 'build/views/login.html',
                 controller: 'LoginController'
             }).when('/logout', {
