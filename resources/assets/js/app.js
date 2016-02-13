@@ -1,7 +1,7 @@
 var app = angular.module('app', [
-    'ngRoute', 'angular-oauth2', 'app.controllers', 'app.services', 'app.filters', 'app.directives',
-    'angularUtils.directives.dirPagination', 'ngFileUpload', 'http-auth-interceptor', 'mgcrea.ngStrap.navbar', 'ngAnimate',
-    'ui.bootstrap.typeahead', 'ui.bootstrap.tpls', 'ui.bootstrap.datepicker','ui.bootstrap.modal', 'ui.bootstrap.dropdown', 'ui.bootstrap.tabs'
+    'ngRoute', 'ngFileUpload', 'ngAnimate', 'angular-oauth2', 'app.controllers', 'app.services', 'app.filters', 'app.directives',
+    'ui.bootstrap.typeahead', 'ui.bootstrap.tpls', 'ui.bootstrap.datepicker','ui.bootstrap.modal', 'ui.bootstrap.dropdown', 'ui.bootstrap.tabs',
+    'angularUtils.directives.dirPagination', 'http-auth-interceptor', 'mgcrea.ngStrap.navbar', 'pusher', 'pusher-angular'
 ]);
 
 angular.module('app.controllers', ['ngMessages', 'angular-oauth2']);
