@@ -1,0 +1,29 @@
+<?php
+
+namespace GerenciadorProjetos\Events;
+
+use GerenciadorProjetos\Entities\ProjectTask;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Queue\SerializesModels;
+
+class TaskWasChanged extends Event implements ShouldBroadcast
+{
+    use SerializesModels;
+
+    public $task;
+
+    public function __construct(ProjectTask $task)
+    {
+        $this->task = $task;
+    }
+
+    /**
+     * Get the channels the event should broadcast on.
+     *
+     * @return array
+     */
+    public function broadcastOn()
+    {
+        return ['user.' . \Authorizer::getResourceOwnerId()];
+    }
+}

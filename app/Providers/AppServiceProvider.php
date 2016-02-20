@@ -3,6 +3,7 @@
 namespace GerenciadorProjetos\Providers;
 
 use GerenciadorProjetos\Entities\ProjectTask;
+use GerenciadorProjetos\Events\TaskWasChanged;
 use GerenciadorProjetos\Events\TaskWasIncluded;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
@@ -21,7 +22,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         ProjectTask::updated(function($task){
-            Event::fire(new TaskWasIncluded($task));
+            Event::fire(new TaskWasChanged($task));
         });
     }
 

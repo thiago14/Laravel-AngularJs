@@ -9,6 +9,7 @@
         <link rel="stylesheet" href="{{ asset('build/css/font-awesome.css') }}"/>
         <link rel="stylesheet" href="{{ asset('build/css/flaticon.css') }}"/>
         <link rel="stylesheet" href="{{ asset('build/css/components.css') }}"/>
+        <link rel="stylesheet" href="{{ asset('build/css/vendor/angular-ui-notification.min.css') }}"/>
         <link rel="stylesheet" href="{{ asset('build/css/app.css') }}"/>
     @else
         <link rel="stylesheet" href="{{ elixir('css/all.css') }}"/>
@@ -54,6 +55,7 @@
     <script src="{{ asset('build/js/vendor/dirPagination.js') }}" type="text/javascript"></script>
     <script src="{{ asset('build/js/vendor/pusher.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('build/js/vendor/pusher-angular.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('build/js/vendor/angular-ui-notification.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('build/js/app.js') }}" type="text/javascript"></script>
 
     {{--Controllers--}}

@@ -1,7 +1,7 @@
 var app = angular.module('app', [
     'ngRoute', 'ngFileUpload', 'ngAnimate', 'angular-oauth2', 'app.controllers', 'app.services', 'app.filters', 'app.directives',
     'ui.bootstrap.typeahead', 'ui.bootstrap.tpls', 'ui.bootstrap.datepicker','ui.bootstrap.modal', 'ui.bootstrap.dropdown', 'ui.bootstrap.tabs',
-    'angularUtils.directives.dirPagination', 'http-auth-interceptor', 'mgcrea.ngStrap.navbar', 'pusher-angular'
+    'angularUtils.directives.dirPagination', 'http-auth-interceptor', 'mgcrea.ngStrap.navbar', 'pusher-angular', 'ui-notification'
 ]);
 
 angular.module('app.controllers', ['ngMessages', 'angular-oauth2']);
@@ -194,8 +194,8 @@ app.config([
         });
     }]);
 
-app.run(['$rootScope', '$location', '$cookies', '$http', '$modal', '$window', '$pusher', 'httpBuffer', 'OAuth', 'appConfig',
-    function ($rootScope, $location, $cookies, $http, $modal, $window, $pusher, httpBuffer, OAuth, appConfig) {
+app.run(['$rootScope', '$location', '$cookies', '$http', '$filter', '$modal', '$window', '$pusher', 'httpBuffer', 'OAuth', 'appConfig', 'Notification',
+    function ($rootScope, $location, $cookies, $http, $filter, $modal, $window, $pusher, httpBuffer, OAuth, appConfig, Notification) {
 
         $rootScope.$on('pusher-build', function (event, data) {
             if(data.next.$$route.originalPath != '/login'){
@@ -206,7 +206,18 @@ app.run(['$rootScope', '$location', '$cookies', '$http', '$modal', '$window', '$
                         channel = pusher.subscribe('user.' + $cookies.getObject('user').id);
                         channel.bind('GerenciadorProjetos\\Events\\TaskWasIncluded',
                             function (data) {
-                                console.log(data);
+                                var date = $filter('date')(data.task.start_date, 'dd/MM/yyyy');
+                                Notification.success('Tarefa "' + data.task.name+'" foi incluida!<br> Iniciará em ' + date );
+                            }
+                        );
+
+                        channel.bind('GerenciadorProjetos\\Events\\TaskWasChanged',
+                            function (data) {
+                                Notification.success('Tarefa "' + data.task.name+'" foi alterada!');
+                                if(data.task.status == 3)
+                                {
+                                    Notification.success('Tarefa "' + data.task.name+'" foi concluída!');
+                                }
                             }
                         )
                     }

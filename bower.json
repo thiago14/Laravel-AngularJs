@@ -28,7 +28,8 @@
     "angular-http-auth": "~1.2.3",
     "angularUtils-pagination": "angular-utils-pagination#~0.9.3",
     "pusher": "~3.0.0",
-    "pusher-angular": "~0.1.9"
+    "pusher-angular": "~0.1.9",
+    "angular-ui-notification": "~0.1.0"
   },
   "resolutions": {
     "angular": "1.4.7"
